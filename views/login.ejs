@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<%include head %>
+    <title>Login</title>
+	 <link href="/static/css/login.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+	
+      <form class="form-signin" role="form" method="post" action="/login">
+		<p class="bg-danger"><%= message %></p>
+        <h3 class="form-signin-heading">Login</h3>
+        <input type="email" name="username" class="form-control" placeholder="Email" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      </form>
+    
+	</div> <!-- /container -->
+  </body>
+</html>
