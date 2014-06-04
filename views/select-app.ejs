@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+	<% include head %>
+    <title>Select Application</title>
+  </head>
+  
+  <body>	
+	<% include nav %>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12"   >
+    			<h3>Select an application to monitor</h3>
+				<hr class="featurette-divider">
+    			<form id="form" class="form-inline" role="form" method="post">				  
+				  <div class="form-group">
+						<select class="form-control" name="app" id="interval">
+							<option value="localhost">localhost</option>
+							<option value="webperf-khankamranali.rhcloud.com">webperf-khankamranali.rhcloud.com</option>
+							<option value="edelivery-uat.tibco.com">edelivery-uat.tibco.com</option>
+							<option value="edelivery-qa.tibco.com">edelivery-qa.tibco.com</option>
+							<option value="edelivery-dev.tibco.com">edelivery-dev.tibco.com</option>
+						</select>
+				  </div>
+    			  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+		</div>
+		 
+       </div> 
+	</div>
+	
+    </div> <!-- end container -->
+	
+  </body>
+</html>
