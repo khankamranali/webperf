@@ -4,19 +4,9 @@ const
 	logger = require('morgan'),
 	mongo = require('mongoskin');
 
-//provide a sensible default for local development
-var mongodbConnectionString = "mongodb://localhost:27017/perf"
-//take advantage of openshift env vars when available:
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
-}
-var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  db.authenticate('admin', '6WPBZjxMQyys', function(err, res) {
-	console.log('Mongodb connection auth passed.');
-  });
-}
 
+var mongodbConnectionString = "mongodb://localhost:27017/webperf"
+var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
 
 var cronJob = cron.job("0/10 * * * * *", function(){
     runMinMR(function() {
