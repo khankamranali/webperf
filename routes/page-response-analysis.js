@@ -5,11 +5,11 @@ var moment = require('moment');
 /* Day range */
 router.get('/q', function(req, res) {
 	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).toDate();
+	var toTs = moment(req.query.toTs).add('days', 1).toDate();
 	var coll = req.query.interval;
 	
 	//todo pull from session
-	var app = "WebPerf";
+	var app = req.session.app;
 	
 	var pipeline = [
 					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } },

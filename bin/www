@@ -10,7 +10,14 @@ var options = {
   cert: fs.readFileSync('./ssl/localhost.cert')
 };
 
-http.createServer(app).listen(3000);
-https.createServer(options, app).listen(3443);
-console.log('Server listening on http:3000 and https:3443 ports.');
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000
+var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
+http.createServer(app).listen(port, ip, function () {
+  console.log( "Listening on ip=" + ip + ", port=" + port )
+});
+
+//https.createServer(options, app).listen(3443);
+//console.log('Server listening on http:3000 and https:3443 ports.');
+
+var mrapp = require('../jobs/mr/mrapp');

@@ -6,50 +6,39 @@ router.get('/q', function(req, res) {
 	var fromTs = moment(req.query.fromTs).toDate();
 	var toTs = moment(req.query.toTs).add('days', 1).toDate();
 	var coll = req.query.interval;
-	var country = req.query.country;
 	var field = req.query.field;
+	var fun = req.query.fun;
 	
-	//todo pull from session
 	var app = req.session.app;
 	
 	//build match
 	var match = {$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app }};
-	if (country!='all') {
-		match.$match['_id.ctr'] = country;
-	}
 	
 	// build group
 	var group = { $group:{ 
-						   _id: {year: { $year: "$_id.ts" }, month: { $month: "$_id.ts" }, day: {$dayOfMonth: "$_id.ts"}, hour: {$hour: "$_id.ts"}, minute: {$minute: "$_id.ts"}}
+						   _id: '$_id.ctr'
 						}
 				};
-				
-	if (field == 'cnt') {
-		group.$group[field] = {$sum: '$value.'+field};
-	} else {
-		group.$group[field] = {$avg: '$value.'+field};
-	}
-	
-	var project = 	{ $project: 
-							{
-							   _id: 0,
-							   ts: "$_id",
-							}
-					};
-	project.$project[field] = 1;
-	
-	var pipeline = [
+	var o = {}
+	o[fun] = '$value.'+field;
+	group.$group[field] = o;
+		
+	var pipeline = 	[
 					match,
-					group,
-					{ $sort: { "_id": 1 } },
-					project
-				];
+					group
+					];
+	
+	console.log(pipeline);
 	
 	req.db.collection(coll).aggregate( pipeline, function (err, result) {
 		if(err) {
 			res.json({err:err});
 		} else {
-			res.json(result);
+			var mapData={};
+			result.forEach( function(entry) {
+				mapData[entry._id] = entry[field];
+			});
+			res.json(mapData);
 		}
 	});
 });

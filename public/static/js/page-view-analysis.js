@@ -2,39 +2,37 @@ $(document).ready(
 		
 		function() {
 			
+			var series  = [];
+			
 			$('#form').submit(function(event) {
 				event.preventDefault();
+				var seriesEntry = {label:this.field.value+'_'+this.interval.value+'_'+this.fromTs.value+'_'+this.toTs.value+'_'+this.country.value, sname:this.field.value, data:[]};
+				series.push(seriesEntry);
 				var query = $(this).serialize();
 				$.ajax({
 					url: "/page-view-analysis/q?"+query,
 					type: "GET",
 					dataType: "json",
-					success: plotChart
+					success: function(data) { 
+						plotChart(data, seriesEntry);
+					}
 				});
 				$('#chartInfoDiv').show();
+				
 			});
 			
-			function createSeries(data) {
-				var series = 	[
-									{label:"Total", sname: "tt", data:[]},{label:"Redirect", sname: "rd", data:[]},
-									{label:"DNS", sname: "dns", data:[]},{label:"Connection", sname: "con", data:[]},
-									{label:"Server", sname: "rq", data:[]},{label:"Download", sname: "rs", data:[]},
-									{label:"DOM", sname: "dom", data:[]},{label:"Load", sname: "ld", data:[]},
-									{label:"Transactions", sname: "cnt", data:[]}
-								];
-								
+			
+			function createSeries(data, seriesEntry) {
 				for ( var i = 0; i < data.length; i += 1) {
 					row = data[i];
-					series.forEach(function(entry) {
-						var t = moment.utc([row.ts.year, row.ts.month, row.ts.day, row.ts.hour, row.ts.minute]).valueOf();
-						entry.data.push([t, row[entry.sname]]);
-					});
+					var t = moment.utc([row.ts.year, row.ts.month-1, row.ts.day, row.ts.hour, row.ts.minute]).valueOf();
+					seriesEntry.data.push([t, row[seriesEntry.sname]]);
 				}
 				
 				return series;
 			}
 			
-			function plotChart(data) {
+			function plotChart(data, seriesEntry) {
 				var options = {
 							xaxis : {
 								mode : "time",
@@ -50,8 +48,8 @@ $(document).ready(
 							}
 					};
 				
-				var series = createSeries(data);
-				
+				var series = createSeries(data, seriesEntry);
+				$('#chartDiv').empty();
 				$.plot("#chartDiv", series, options);
 			}
 	}

@@ -28,6 +28,10 @@ router.get('/page-view-analysis', ensureAuthenticated,function(req, res) {
   res.render('page-view-analysis', { moment: moment });
 });
 
+/* GET page response time analysis page. */
+router.get('/analysis-on-worldmap', ensureAuthenticated,function(req, res) {
+  res.render('analysis-on-worldmap', { moment: moment });
+});
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If

@@ -25,9 +25,13 @@
                   </div>
 				  
 				  <div class="form-group">
-    				  <label for="interval" class="control-label">Interval</label>
-    				  <input type="text" class="form-control" name="interval" id="interval" value="page.min">
-                  </div>
+						<label for="interval" class="control-label">From</label>
+						<select class="form-control" name="interval" id="interval">
+							<option value="page.min">Minute</option>
+							<option value="page.hour">Hour</option>
+							<option value="page.day">Day</option>
+						</select>
+				  </div>
 				  
     			  <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -35,8 +39,8 @@
 		</div>
 		
 		 <div class="row">
-	       <hr class="featurette-divider">
     	   <div class="col-md-12"   >
+				<hr class="featurette-divider">
     			<div  style="height:400px" id="chartDiv">
      			</div>
            </div>

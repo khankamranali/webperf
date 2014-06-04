@@ -6,7 +6,20 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var mongo = require('mongoskin');
-var db = mongo.db("mongodb://localhost:27017/perf", {auto_reconnect: true, native_parser: true});
+
+//provide a sensible default for local development
+var mongodbConnectionString = "mongodb://localhost:27017/perf"
+//take advantage of openshift env vars when available:
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
+}
+var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  db.authenticate(user, password, function(err, res) {
+	console.log('Mongodb connection auth passed.');
+  });
+}
+
 var session      = require('express-session');
 var sessionstore = require('sessionstore');
 var flash = require('connect-flash');
@@ -18,6 +31,7 @@ var tag = require('./routes/tag');
 var login = require('./routes/login');
 var pageResponseAnalysis = require('./routes/page-response-analysis');
 var pageViewAnalysis = require('./routes/page-view-analysis');
+var analysisOnWorldMap = require('./routes/analysis-on-worldmap');
 
 var app = express();
 
@@ -47,6 +61,12 @@ app.use(function(req,res,next){
     next();
 });
 
+//todo, remove it and set it based on role.
+app.use(function(req,res,next){
+    req.session.app = "WebPerf";
+    next();
+});
+
 app.use(function(req,res,next){
     next();
 });
@@ -56,7 +76,8 @@ app.use('/', login);
 app.use('/page-response-query', pageResponseQuery);
 app.use('/tag', tag);
 app.use('/page-response-analysis', pageResponseAnalysis);
-app.use('/page-view-analysis', pageResponseAnalysis);
+app.use('/page-view-analysis', pageViewAnalysis);
+app.use('/analysis-on-worldmap', analysisOnWorldMap);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
