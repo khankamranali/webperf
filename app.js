@@ -15,7 +15,7 @@ if(process.env.OPENSHIFT_MONGODB_DB_URL){
 }
 var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  db.authenticate(user, password, function(err, res) {
+  db.authenticate('admin', '6WPBZjxMQyys', function(err, res) {
 	console.log('Mongodb connection auth passed.');
   });
 }
