@@ -6,20 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var mongo = require('mongoskin');
-
-//provide a sensible default for local development
-var mongodbConnectionString = "mongodb://localhost:27017/perf"
-//take advantage of openshift env vars when available:
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
-}
+var mongodbConnectionString = "mongodb://localhost:27017/webperf"
 var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  db.authenticate('admin', '6WPBZjxMQyys', function(err, res) {
-	console.log('Mongodb connection auth passed.');
-  });
-}
-
 var session      = require('express-session');
 var sessionstore = require('sessionstore');
 var flash = require('connect-flash');
