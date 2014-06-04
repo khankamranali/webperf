@@ -7,6 +7,17 @@ router.get('/home', ensureAuthenticated,function(req, res) {
   res.render('home', { title: 'Home'});
 });
 
+router.get('/select-app', ensureAuthenticated,function(req, res) {
+  res.render('select-app', { title: 'Select Application'});
+});
+
+router.post('/select-app', 
+  passport.authenticate('local', { failureRedirect: '/error', failureFlash: true }),
+  function(req, res) {
+	req.session.app = req.query.app;
+    res.redirect('/home');
+});
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.redirect('/home');

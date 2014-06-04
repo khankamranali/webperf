@@ -7,9 +7,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var mongo = require('mongoskin');
 
-//provide a sensible default for local development
 var mongodbConnectionString = "mongodb://localhost:27017/perf"
-//take advantage of openshift env vars when available:
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
   mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
 }
@@ -58,12 +56,6 @@ app.use(passport.session());
 // Make our db accessible to our router
 app.use(function(req,res,next){
     req.db = db;
-    next();
-});
-
-//todo, remove it and set it based on role.
-app.use(function(req,res,next){
-    req.session.app = "WebPerf";
     next();
 });
 

@@ -2,7 +2,7 @@
 
 window.onload=function(){
 
-	var CONF = {app:"WebPerf", host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
+	var CONF = {app:window.location.hostname, host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
 	
 	addXMLRequestHook();
 	
