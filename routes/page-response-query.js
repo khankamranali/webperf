@@ -7,7 +7,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 	var fromTs = moment(req.query.fromTs).toDate();
 	var toTs = moment(req.query.toTs).toDate();
 	//todo pull from session
-	var app = "WebPerf";
+	var app = req.session.app;
 	
 	var pipeline = [
 					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } },
