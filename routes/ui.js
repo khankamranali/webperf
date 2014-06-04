@@ -13,7 +13,7 @@ router.get('/select-app', ensureAuthenticated,function(req, res) {
 
 router.post('/select-app',
   function(req, res) {
-	req.session.app = req.query.app;
+	req.session.app = req.body.app;
     res.redirect('/home');
 });
 

@@ -9,6 +9,8 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 	//todo pull from session
 	var app = req.session.app;
 	
+	console.log('app:'+app);
+	
 	var pipeline = [
 					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } },
 					{ 	$group :
