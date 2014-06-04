@@ -5,8 +5,16 @@ const
 	mongo = require('mongoskin');
 
 
-var mongodbConnectionString = "mongodb://localhost:27017/webperf"
+var mongodbConnectionString = "mongodb://localhost:27017/perf"
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
+}
 var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  db.authenticate('admin', '6WPBZjxMQyys', function(err, res) {
+	console.log('Mongodb connection auth passed.');
+  });
+}
 
 var cronJob = cron.job("0/10 * * * * *", function(){
     runMinMR(function() {
