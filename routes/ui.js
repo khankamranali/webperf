@@ -11,8 +11,7 @@ router.get('/select-app', ensureAuthenticated,function(req, res) {
   res.render('select-app', { title: 'Select Application'});
 });
 
-router.post('/select-app', 
-  passport.authenticate('local', { failureRedirect: '/error', failureFlash: true }),
+router.post('/select-app',
   function(req, res) {
 	req.session.app = req.query.app;
     res.redirect('/home');
