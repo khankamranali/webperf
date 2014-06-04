@@ -6,8 +6,12 @@ var flash = require('connect-flash')
   , router = express.Router();
 
 var users = [
-    { id: 1, username: 'kamran.khan@hcl.com', password: 'secret', email: 'kamran.khan@hcl.com' }
-  , { id: 2, username: 'vjangam@tibco.com', password: 'secret', email: 'vjangam@tibco.com' }
+    { id: 1, username: 'kamran.khan@hcl.com', password: 'secret', email: 'kamran.khan@hcl.com' },
+	{ id: 2, username: 'vjangam@tibco.com', password: 'secret', email: 'vjangam@tibco.com' },
+	{ id: 3, username: 'vaibhav.saxena@hcl.com', password: 'secret', email: 'vaibhav.saxena@hcl.com' },
+	{ id: 4, username: 'swapnil.gupta@hcl.com', password: 'secret', email: 'swapnil.gupta@hcl.com' },
+	{ id: 5, username: 'sagar.tondon@hcl.com', password: 'secret', email: 'sagar.tondon@hcl.com' },
+	{ id: 6, username: 'shbhatt@tibco.com', password: 'secret', email: 'shbhatt@tibco.com' },
 ];
 
 function findById(id, fn) {
