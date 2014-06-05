@@ -111,7 +111,7 @@ $(document).ready(
 					options = {
 							xaxis : {
 								mode: "categories",
-								rotateTicks: 45,
+								rotateTicks: 135,
 								tickLength: 0
 							},
 							series : {

@@ -6,10 +6,7 @@ var moment = require('moment');
 router.get('/dayrange', ensureAuthenticated, function(req, res) {
 	var fromTs = moment(req.query.fromTs).toDate();
 	var toTs = moment(req.query.toTs).toDate();
-	//todo pull from session
 	var app = req.session.app;
-	
-	console.log('app:'+app);
 	
 	var pipeline = [
 					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } },
@@ -64,7 +61,6 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 	var fromTs = moment(req.query.fromTs).toDate();
 	var toTs = moment(req.query.toTs).toDate();
 	var pg = req.query.page;
-	//todo pull from session
 	var app = req.session.app;
 	
 	var pipeline = [
@@ -121,9 +117,7 @@ router.get('/page/country/day', ensureAuthenticated, function(req, res) {
 	var toTs = moment(req.query.toTs).toDate();
 	var pg = req.query.page;
 	var ctr = req.query.country;
-	
-	//todo pull from session
-	var app = "WebPerf";
+	var app = req.session.app;
 	
 	var where = {"_id.ts": {"$gte": fromTs, "$lte": toTs}, "_id.pg": pg, "_id.ctr": ctr, "_id.app":app};
 	
@@ -152,9 +146,7 @@ router.get('/page/country/hour', ensureAuthenticated, function(req, res) {
 	var toTs = moment(req.query.toTs).toDate();
 	var pg = req.query.page;
 	var ctr = req.query.country;
-	
-	//todo pull from session
-	var app = "WebPerf";
+	var app = req.session.app;
 	
 	var where = {"_id.ts": {"$gte": fromTs, "$lte": toTs}, "_id.pg": pg, "_id.ctr": ctr, "_id.app":app};
 	
@@ -184,9 +176,7 @@ router.get('/page/country/min', ensureAuthenticated, function(req, res) {
 	var toTs = moment(req.query.toTs).toDate();
 	var pg = req.query.page;
 	var ctr = req.query.country;
-	
-	//todo pull from session
-	var app = "WebPerf";
+	var app = req.session.app;
 	
 	var where = {"_id.ts": {"$gte": fromTs, "$lte": toTs}, "_id.pg": pg, "_id.ctr": ctr, "_id.app":app};
 	

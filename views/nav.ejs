@@ -41,3 +41,16 @@
         </div><!-- /.navbar-collapse -->
   	</div><!-- /.container-fluid -->
 	</nav>
+	
+	<!--- Ajax loader --->
+	<script>
+		$(document).ready(function(){
+		  $(document).ajaxStart(function(){
+			$("#wait").css("display","block");
+		  });
+		  $(document).ajaxComplete(function(){
+			$("#wait").css("display","none");
+		  });
+		});
+	</script>
+	<div id="wait" style="display:none;position:absolute;top:50%;left:50%;padding:2px;"><img src='/static/img/ajax_loader.gif' width="64" height="64" /></div>
