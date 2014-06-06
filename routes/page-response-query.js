@@ -15,7 +15,6 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 							   cnt : { $sum: "$value.cnt" }, 
 							   tt: {$avg: "$value.tt"},
 							   rd: {$avg: "$value.rd"},
-							   cch: {$avg: "$value.cch"},
 							   dns: {$avg: "$value.dns"},
 							   con: {$avg: "$value.con"},
 							   rq: {$avg: "$value.rq"},
@@ -31,7 +30,6 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 							   cnt : 1, 
 							   tt: 1,
 							   rd: 1,
-							   cch: 1,
 							   dns: 1,
 							   con: 1,
 							   rq: 1,
@@ -49,7 +47,15 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 			result.forEach( function(entry) {
 				entry.ctr=null;
 				entry.ts=moment(fromTs).format("YYYY-MM-DDTHH:mm")+' - '+moment(toTs).format("YYYY-MM-DDTHH:mm");
-				entry.tableType="DAY_RANGE"
+				entry.tableType="DAY_RANGE";
+				entry.tt = Math.floor(entry.tt);
+				entry.rd = Math.floor(entry.rd);
+				entry.dns = Math.floor(entry.dns);
+				entry.con = Math.floor(entry.con);
+				entry.rq = Math.floor(entry.rq);
+				entry.rs = Math.floor(entry.rs);
+				entry.dom = Math.floor(entry.dom);
+				entry.ld = Math.floor(entry.ld);
 			});
 			res.json({sEcho:1, iTotalRecords:result.length, iTotalDisplayRecords:result.length, aaData:result});
 		}

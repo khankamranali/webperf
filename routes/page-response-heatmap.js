@@ -5,7 +5,7 @@ var moment = require('moment');
 router.get('/q', function(req, res) {
 	var fromTs = moment(req.query.fromTs).toDate();
 	var toTs = moment(req.query.toTs).add('days', 1).toDate();
-	var coll = req.query.interval;
+	var coll = 'page.day';
 	var field = req.query.field;
 	var fun = req.query.fun;
 	
