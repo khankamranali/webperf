@@ -18,8 +18,9 @@ $(document).ready(
 			};
 						
 			var oTable = $('#dataTable').dataTable({
+				"bAutoWidth": false,
 				"aoColumns": [
-				              { "sType": "string", "mData": "pg" },
+				              { "sType": "string", "mData": "pg", sWidth:"60%"},
 				              { "sType": "string", "mData": "ctr" },
 				              { "sType": "date", "mData": "ts" },
 				              { "sType": "numeric", "mData": "cnt" },
