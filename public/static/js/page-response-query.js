@@ -16,44 +16,7 @@ $(document).ready(
 				Load : 11,
 				TableType : 12
 			};
-			
-			var chartColumns = [ {
-				index : index.Redirect,
-				name : "Redirect",
-				sname : "rd",
-				data : []
-			}, {
-				index : index.DNS,
-				name : "DNS",
-				sname : "dns",
-				data : []
-			}, {
-				index : index.Connection,
-				name : "Connection",
-				sname : "con",
-				data : []
-			}, {
-				index : index.Server,
-				name : "Server",
-				sname : "rq",
-				data : []
-			}, {
-				index : index.Download,
-				name : "Download",
-				sname : "rs",
-				data : []
-			}, {
-				index : index.DOM,
-				name : "DOM",
-				sname : "dom",
-				data : []
-			}, {
-				index : index.Load,
-				name : "Load",
-				sname : "ld",
-				data : []
-			}, ];
-			
+						
 			var oTable = $('#dataTable').dataTable({
 				"aoColumns": [
 				              { "sType": "string", "mData": "pg" },
@@ -99,78 +62,8 @@ $(document).ready(
 						oTable.fnSetColumnVis(index.Time, true);
 						$("#tableTypeHeading").text("Minute wise response time breakup");
 					}
-					plotChart(tableType);
 				}
-			});
-
-			function plotChart(tableType) {
-				var tableRows = oTable.fnGetData();
-				var options;
-				
-				if (tableType=="DAY_RANGE" || tableType=="PAGE_DAY_RANGE") {
-					options = {
-							xaxis : {
-								mode: "categories",
-								rotateTicks: 135,
-								tickLength: 0
-							},
-							series : {
-								bars: {
-									show: true,
-									barWidth: 0.6,
-									align: "center",
-									fill : .9
-								},
-								stack : true
-							}
-						};
-				} else {
-					options = {
-							xaxis : {
-								mode : "time",
-								timezone: "browser"
-							},
-							series : {
-								lines : {
-									show : true,
-									fill : .9
-								},
-								stack : true
-							}
-						};
-				}
-				
-				chartColumns.forEach(function(entry) {
-					entry.data.splice(0, entry.data.length);
-				});
-
-				for ( var i = 0; i < tableRows.length; i += 1) {
-					row = tableRows[i];
-					chartColumns.forEach(function(entry) {
-						if (tableType=="DAY_RANGE") {
-							var p = row.pg;
-							entry.data.push([p, row[entry.sname]]);
-						} else if (tableType=="PAGE_DAY_RANGE") {
-							var p = row.ctr;
-							entry.data.push([p, row[entry.sname]]);
-						} else {
-							var t = moment(row.ts);
-							entry.data.push([t.valueOf(), row[entry.sname]]);
-						}
-					});
-				}
-
-				var series = [];
-				chartColumns.forEach(function(entry) {
-					series.push({
-						data : entry.data,
-						label : entry.name
-					});
-				});
-
-				$.plot("#chartDiv", series, options);
-			} // plotChart method end
-			
+			});			
 			
 			$('#dataTable tbody').on('click', 'tr', function() {
 						var nTr = this;
