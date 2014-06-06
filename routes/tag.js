@@ -19,6 +19,13 @@ router.get('/:tag', function(req, res) {
 	pt.app = data.app;
 	pt.pg = data.pg;
 	pt.tt = parseInt(data.tt);
+	//if total time is greater than 5 Min, then the data is corrupt ignore it
+	if (pt.tt>300000) {
+		// send no content http code.
+		res.status(204);
+		res.send();
+		return;
+	}
 	pt.rd = parseInt(data.rd);
 	pt.dns = parseInt(data.dns);
 	pt.con = parseInt(data.con);

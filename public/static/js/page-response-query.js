@@ -44,19 +44,19 @@ $(document).ready(
 					if (tableType == "DAY_RANGE") {
 						oTable.fnSetColumnVis(index.Country, false);
 						oTable.fnSetColumnVis(index.Time, false);
-						$("#tableTypeHeading").text("Page wise response time breakup. Click on the row to see country wise break up.");
+						$("#tableTypeHeading").text("Page wise response time breakup. Double click on the row to see country wise break up.");
 					} else if (tableType == "PAGE_DAY_RANGE") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, false);
-						$("#tableTypeHeading").text("Country wise response time breakup. Click on the row to see day wise break up.");
+						$("#tableTypeHeading").text("Country wise response time breakup. Double click on the row to see day wise break up.");
 					} else if (tableType == "PAGE_COUNTRY_DAY") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, true);
-						$("#tableTypeHeading").text("Day wise response time breakup. Click on the row to see hour wise break up.");
+						$("#tableTypeHeading").text("Day wise response time breakup. Double click on the row to see hour wise break up.");
 					} else if (tableType == "PAGE_COUNTRY_HOUR") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, true);
-						$("#tableTypeHeading").text("Hour wise response time breakup. Click on the row to see minute wise break up.");
+						$("#tableTypeHeading").text("Hour wise response time breakup. Double click on the row to see minute wise break up.");
 					} else if (tableType == "PAGE_COUNTRY_MIN") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, true);
@@ -65,7 +65,7 @@ $(document).ready(
 				}
 			});			
 			
-			$('#dataTable tbody').on('click', 'tr', function() {
+			$('#dataTable tbody').on('dblclick', 'tr', function() {
 						var nTr = this;
 						var rowData = oTable.fnGetData(nTr);
 						
