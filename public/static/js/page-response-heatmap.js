@@ -6,13 +6,13 @@ $(document).ready(
 				  map: 'world_mill_en',
 				  series: {
 					regions: [{
-					  //scale: ['#00A455', '#A40000'],
 					  scale: ['#FFC2B2', '#FF3300'],
-					  normalizeFunction: 'linear'
+					  normalizeFunction: 'polenomial'
 					}]
 				  },
 				  onRegionLabelShow: function(e, el, code){
-					el.html(el.html()+' ('+mdata[code]+')');
+					var value = parseInt(mdata[code])
+					el.html(el.html()+' ('+value+')');
 				  }
 			});
 				
@@ -20,7 +20,7 @@ $(document).ready(
 				event.preventDefault();
 				var query = $(this).serialize();
 				$.ajax({
-					url: "/analysis-on-worldmap/q?"+query,
+					url: "/page-response-heatmap/q?"+query,
 					type: "GET",
 					dataType: "json",
 					success: function(data) { 

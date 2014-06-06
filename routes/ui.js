@@ -29,18 +29,18 @@ router.get('/page-response-query', ensureAuthenticated,function(req, res) {
 });
 
 /* GET page response time analysis page. */
+router.get('/page-response-chart', ensureAuthenticated,function(req, res) {
+  res.render('page-response-chart', { moment: moment });
+});
+
+/* GET page response time analysis page. */
 router.get('/page-response-analysis', ensureAuthenticated,function(req, res) {
   res.render('page-response-analysis', { moment: moment });
 });
 
 /* GET page response time analysis page. */
-router.get('/page-view-analysis', ensureAuthenticated,function(req, res) {
-  res.render('page-view-analysis', { moment: moment });
-});
-
-/* GET page response time analysis page. */
-router.get('/analysis-on-worldmap', ensureAuthenticated,function(req, res) {
-  res.render('analysis-on-worldmap', { moment: moment });
+router.get('/page-response-heatmap', ensureAuthenticated,function(req, res) {
+  res.render('page-response-heatmap', { moment: moment });
 });
 
 // Simple route middleware to ensure user is authenticated.

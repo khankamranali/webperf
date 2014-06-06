@@ -27,9 +27,9 @@ var ui = require('./routes/ui');
 var pageResponseQuery = require('./routes/page-response-query');
 var tag = require('./routes/tag');
 var login = require('./routes/login');
-var pageResponseAnalysis = require('./routes/page-response-analysis');
-var pageViewAnalysis = require('./routes/page-view-analysis');
-var analysisOnWorldMap = require('./routes/analysis-on-worldmap');
+var pageResponseAnalysis = require('./routes/page-response-chart');
+var pageViewAnalysis = require('./routes/page-response-analysis');
+var analysisOnWorldMap = require('./routes/page-response-heatmap');
 
 var app = express();
 
@@ -67,9 +67,9 @@ app.use('/', ui);
 app.use('/', login);
 app.use('/page-response-query', pageResponseQuery);
 app.use('/tag', tag);
-app.use('/page-response-analysis', pageResponseAnalysis);
-app.use('/page-view-analysis', pageViewAnalysis);
-app.use('/analysis-on-worldmap', analysisOnWorldMap);
+app.use('/page-response-chart', pageResponseAnalysis);
+app.use('/page-response-analysis', pageViewAnalysis);
+app.use('/page-response-heatmap', analysisOnWorldMap);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

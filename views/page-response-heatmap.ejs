@@ -4,7 +4,7 @@
   <head>
 	<link rel="stylesheet" href="/static/jvectormap/1.2.2/jquery-jvectormap-1.2.2.css" type="text/css" media="screen"/>
 	<% include head %>
-    <title>Performance Analysis on world Map.</title>
+    <title>Page response heatmap</title>
   </head>
   
   <body>	
@@ -13,7 +13,7 @@
 	<div class="container">
 				<div class="row">
 			<div class="col-md-12"   >
-    			<h3>Page View Analysis</h3>
+    			<h3>Page Response Heatmap</h3>
 				<hr class="featurette-divider">
     			<form id="form" class="form-inline" role="form">
 					
@@ -52,11 +52,7 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="fromTs" class="control-label">Where</label>
-					</div>
-					
-					<div class="form-group">
-						<label for="fromTs" class="control-label">From Time</label>
+						<label for="fromTs" class="control-label">Where  From Time</label>
 						<input type="text" class="form-control" name="fromTs" id="fromTs" value="<%= moment().format('YYYY-MM-DD') %>">
 					</div>
    
@@ -78,7 +74,7 @@
 		</div> <!-- row -->
 		<script src="/static/jvectormap/1.2.2/jquery-jvectormap-1.2.2.min.js"></script>
 		<script src="/static/jvectormap/1.2.2/jquery-jvectormap-world-mill-en.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/analysis-on-worldmap.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/page-response-heatmap.js"></script>
     </div> <!-- end container -->
 	
   </body>
