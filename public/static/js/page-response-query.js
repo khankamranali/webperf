@@ -19,7 +19,7 @@ $(document).ready(
 						
 			var oTable = $('#dataTable').dataTable({
 				"aoColumns": [
-				              { "sType": "string", "mData": "pg", sWidth:"60%"},
+				              { "sType": "string", "mData": "pg"},
 				              { "sType": "string", "mData": "ctr" },
 				              { "sType": "date", "mData": "ts" },
 				              { "sType": "numeric", "mData": "cnt" },
