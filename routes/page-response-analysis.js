@@ -3,17 +3,18 @@ var router = express.Router();
 var moment = require('moment');
 
 router.get('/q', function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).add('days', 1).toDate();
-	var coll = req.query.interval;
-	var country = req.query.country;
-	var field = req.query.field;
-	
-	//todo pull from session
+	var fromTs = moment(req.query.fromTs.trim()).toDate();
+	var toTs = moment(req.query.toTs.trim()).add('days', 1).toDate();
+	var coll = req.query.interval.trim();
+	var country = req.query.country.trim();
+	var field = req.query.field.trim();
 	var app = req.session.app;
+	var pg = req.query.pg.trim();
 	
-	//build match
-	var match = {$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app }};
+	var match = { 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } };
+	if (pg != 'all') {
+		match = { 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app, "_id.pg":pg} };
+	}
 	if (country!='all') {
 		match.$match['_id.ctr'] = country;
 	}

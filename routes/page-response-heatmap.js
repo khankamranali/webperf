@@ -3,16 +3,20 @@ var router = express.Router();
 var moment = require('moment');
 
 router.get('/q', function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).add('days', 1).toDate();
+	var fromTs = moment(req.query.fromTs.trim()).toDate();
+	var toTs = moment(req.query.toTs.trim()).add('days', 1).toDate();
 	var coll = 'page.day';
-	var field = req.query.field;
-	var fun = req.query.fun;
+	var field = req.query.field.trim();
+	var fun = req.query.fun.trim();
 	
 	var app = req.session.app;
 	
 	//build match
-	var match = {$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app }};
+	var pg = req.query.pg.trim();
+	var match = { 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } };
+	if (pg != 'all') {
+		match = { 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app, "_id.pg":pg} };
+	}
 	
 	// build group
 	var group = { $group:{ 

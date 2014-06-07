@@ -8,7 +8,7 @@ console.log('maxmind init done.');
 /*  page performance timing tag*/
 router.get('/:tag', function(req, res) {
 	var pt = {};
-	var tag = req.params.tag;
+	var tag = req.params.tag.trim();
 	var data = req.query;
 	
 	if ( tag!='page' || data.app=='undefined' || data.pg=='undefined') {
@@ -26,16 +26,16 @@ router.get('/:tag', function(req, res) {
 		res.send();
 		return;
 	}
-	pt.rd = parseInt(data.rd);
-	pt.dns = parseInt(data.dns);
-	pt.con = parseInt(data.con);
-	pt.rq = parseInt(data.rq);
-	pt.rs = parseInt(data.rs);
-	pt.dom = parseInt(data.dom);
-	pt.ld = parseInt(data.ld);
+	pt.rd = parseInt(data.rd.trim());
+	pt.dns = parseInt(data.dns.trim());
+	pt.con = parseInt(data.con.trim());
+	pt.rq = parseInt(data.rq.trim());
+	pt.rs = parseInt(data.rs.trim());
+	pt.dom = parseInt(data.dom.trim());
+	pt.ld = parseInt(data.ld.trim());
 	
 	// Add country code, timestamp and ip
-	var country = maxmind.getCountry(req.ip);
+	var country = maxmind.getCountry(req.ip.trim());
 	pt.ts = new Date();
 	pt.ctr = country.code;
 	pt.ip = req.ip;

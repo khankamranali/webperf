@@ -33,6 +33,18 @@
 						</select>
 				  </div>
 				  
+				  <div class="form-group">
+						<label for="country" class="control-label">Country</label>
+						<select class="form-control" name="country" id="country">
+						<% include country-options %>
+						</select>
+                  </div>
+				  
+				  <div class="form-group">
+						<label for="pg" class="control-label">Page</label>
+						<input type="text" class="form-control" style="width:360px" name="pg" id="pg" value="all">
+                  </div>
+				  
     			  <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

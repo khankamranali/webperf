@@ -4,12 +4,12 @@ var moment = require('moment');
 
 /* Day range */
 router.get('/dayrange', ensureAuthenticated, function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).toDate();
+	var fromTs = moment(req.query.fromTs.trim()).toDate();
+	var toTs = moment(req.query.toTs.trim()).toDate();
 	var app = req.session.app;
 	
 	var pipeline = [
-					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app } },
+					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app} },
 					{ 	$group :
 							 { _id : "$_id.pg",
 							   cnt : { $sum: "$value.cnt" }, 
