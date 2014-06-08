@@ -17,12 +17,13 @@ if(process.env.OPENSHIFT_MONGODB_DB_URL){
 }
 
 var cronJob = cron.job("0/10 * * * * *", function(){
-    runMinMR(function() {
+    init(function() { 
+		runMinMR(function() {
 			runHourMR(function() {
 				runDayMR( function() {
 					console.log('All MR finished.');
 					console.log('----------------');
-		});});});
+	});});});});
 }); 
 
 cronJob.start();
@@ -101,4 +102,44 @@ function runDayMR(callback) {
 				}
 			}) ;
 		});
+};
+
+// create required collections and create indexes
+function init(callback) {
+	// create conf table which is required to run MR jobs
+	db.collection('conf').find().toArray(function(err, result) {
+		if (err) throw err;
+		if (result.length < 1) {
+			var row = {day: new Date(0), hour: new Date(0), min: new Date(0)};
+			db.collection('conf').insert( row, function (err) {
+				if (err) throw err;
+			});
+		}
+	});
+	
+	// Create indexes
+	db.collection('page').ensureIndex({'ts':-1}, function(err, result) {
+		if (err) throw err;
+	});
+	
+	db.collection('page.min').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.ctr':1, '_id.pg':1}, function(err, result) {
+		if (err) throw err;
+	});
+	db.collection('page.min').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.pg':1}, function(err, result) {
+		if (err) throw err;
+	});
+	db.collection('page.hour').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.ctr':1, '_id.pg':1}, function(err, result) {
+		if (err) throw err;
+	});
+	db.collection('page.hour').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.pg':1}, function(err, result) {
+		if (err) throw err;
+	});
+
+	db.collection('page.day').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.ctr':1, '_id.pg':1}, function(err, result) {
+		if (err) throw err;
+	});
+	db.collection('page.day').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.pg':1}, function(err, result) {
+		if (err) throw err;
+	});
+	callback();
 };
