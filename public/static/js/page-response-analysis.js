@@ -34,18 +34,12 @@ $(document).ready(
 			
 			function plotChart(data, seriesEntry) {
 				var options = {
-							xaxis : {
-								mode : "time",
-								timezone: "browser"
-							},
-							series : {
-								lines : {
-									show : true,
-								}
-							},
-							legend: {
-								hideable: true
-							}
+							xaxis : { mode : "time", timezone: "browser" },
+							series: { lines: { show: true }, points: { show: true } },
+							grid: { hoverable: true, clickable: true },
+							tooltip: true,
+							tooltipOpts: { content: "X=%x | Y=%y"},
+							legend: { hideable: true }
 					};
 				
 				var series = createSeries(data, seriesEntry);

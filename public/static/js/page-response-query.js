@@ -1,6 +1,9 @@
 $(document).ready(
 		
 		function() {
+			var uriArray = [];
+			var uriArrayIndex =0;
+			
 			var index = {
 				Page : 0,
 				Country : 1,
@@ -100,14 +103,43 @@ $(document).ready(
 						} else {
 							return;
 						}
-						oTable.fnReloadAjax(uri);
+						
+						loadNext(uri);
 					});
 
 			$('#form').submit(function(event) {
 				event.preventDefault();
+				uriArrayIndex = 0;
 				$('#tableChartDiv').show();
 				var query = $(this).serialize();
-				oTable.fnReloadAjax('/page-response-query/dayrange?' + query);
+				loadNext('/page-response-query/dayrange?' + query);
 			});
+			
+			// right double click takes to last table in drill down
+			$('#dataTable tbody').on('contextmenu', function (evt) {
+				evt.preventDefault();
+			});
+			$('#dataTable tbody').on('mouseup', 'tr', function (evt) {
+				if (evt.which === 3) { // right-click
+				if (evt.originalEvent.detail === 2) {
+					loadLast();
+				}
+			  }
+			});
+			
+			function loadNext(uri) {
+				uriArray[uriArrayIndex] = uri;
+				++uriArrayIndex;
+				oTable.fnReloadAjax(uri);
+			}
+			
+			function loadLast() {
+				--uriArrayIndex;
+				if (uriArrayIndex<0) {
+					uriArrayIndex=0;
+				}
+				uri = uriArray[uriArrayIndex];
+				oTable.fnReloadAjax(uri);
+			}
 
 		});
