@@ -1,0 +1,116 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\install\\nodejs\\\\node.exe',
+1 verbose cli   'D:\\install\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '-save' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 verbose node symlink D:\install\nodejs\\node.exe
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ 'D:\\install\\nodejs\\ws\\openshift\\webperf',
+6 verbose install   [ 'express',
+6 verbose install     'express-session',
+6 verbose install     'connect-flash',
+6 verbose install     'sessionstore',
+6 verbose install     'static-favicon',
+6 verbose install     'morgan',
+6 verbose install     'cookie-parser',
+6 verbose install     'body-parser',
+6 verbose install     'debug',
+6 verbose install     'ejs',
+6 verbose install     'moment',
+6 verbose install     'mongoskin',
+6 verbose install     'cors',
+6 verbose install     'maxmind',
+6 verbose install     'passport',
+6 verbose install     'passport-local',
+6 verbose install     'cron',
+6 verbose install     'on-headers',
+6 verbose install     'os-utils' ] ]
+7 info preinstall wpd@0.0.1
+8 verbose readDependencies using package.json deps
+9 verbose already installed skipping express@~4.2.0 D:\install\nodejs\ws\openshift\webperf
+10 verbose already installed skipping express-session@~1.2.0 D:\install\nodejs\ws\openshift\webperf
+11 verbose already installed skipping connect-flash@~0.1.1 D:\install\nodejs\ws\openshift\webperf
+12 verbose already installed skipping sessionstore@0.4.5 D:\install\nodejs\ws\openshift\webperf
+13 verbose already installed skipping static-favicon@~1.0.0 D:\install\nodejs\ws\openshift\webperf
+14 verbose already installed skipping morgan@~1.0.0 D:\install\nodejs\ws\openshift\webperf
+15 verbose already installed skipping cookie-parser@~1.0.1 D:\install\nodejs\ws\openshift\webperf
+16 verbose already installed skipping cron@* D:\install\nodejs\ws\openshift\webperf
+17 verbose already installed skipping body-parser@~1.0.0 D:\install\nodejs\ws\openshift\webperf
+18 verbose already installed skipping on-headers@* D:\install\nodejs\ws\openshift\webperf
+19 verbose already installed skipping debug@~0.7.4 D:\install\nodejs\ws\openshift\webperf
+20 verbose cache add [ 'os-utils@*', null ]
+21 verbose cache add name=undefined spec="os-utils@*" args=["os-utils@*",null]
+22 verbose parsed url { protocol: null,
+22 verbose parsed url   slashes: null,
+22 verbose parsed url   auth: null,
+22 verbose parsed url   host: null,
+22 verbose parsed url   port: null,
+22 verbose parsed url   hostname: null,
+22 verbose parsed url   hash: null,
+22 verbose parsed url   search: null,
+22 verbose parsed url   query: null,
+22 verbose parsed url   pathname: 'os-utils@*',
+22 verbose parsed url   path: 'os-utils@*',
+22 verbose parsed url   href: 'os-utils@*' }
+23 verbose cache add name="os-utils" spec="*" args=["os-utils","*"]
+24 verbose parsed url { protocol: null,
+24 verbose parsed url   slashes: null,
+24 verbose parsed url   auth: null,
+24 verbose parsed url   host: null,
+24 verbose parsed url   port: null,
+24 verbose parsed url   hostname: null,
+24 verbose parsed url   hash: null,
+24 verbose parsed url   search: null,
+24 verbose parsed url   query: null,
+24 verbose parsed url   pathname: '*',
+24 verbose parsed url   path: '*',
+24 verbose parsed url   href: '*' }
+25 verbose addNamed [ 'os-utils', '*' ]
+26 verbose addNamed [ null, '*' ]
+27 verbose already installed skipping ejs@~0.8.5 D:\install\nodejs\ws\openshift\webperf
+28 verbose already installed skipping moment@~2.5.1 D:\install\nodejs\ws\openshift\webperf
+29 verbose already installed skipping mongoskin@~1.4.4 D:\install\nodejs\ws\openshift\webperf
+30 verbose already installed skipping cors@* D:\install\nodejs\ws\openshift\webperf
+31 verbose already installed skipping maxmind@* D:\install\nodejs\ws\openshift\webperf
+32 verbose already installed skipping passport@~0.2.0 D:\install\nodejs\ws\openshift\webperf
+33 verbose already installed skipping passport-local@~1.0.0 D:\install\nodejs\ws\openshift\webperf
+34 silly lockFile 6c3a734d-os-utils os-utils@*
+35 verbose lock os-utils@* C:\Users\kamran\AppData\Roaming\npm-cache\6c3a734d-os-utils.lock
+36 silly addNameRange { name: 'os-utils', range: '*', hasData: false }
+37 verbose url raw os-utils
+38 verbose url resolving [ 'https://registry.npmjs.org/', './os-utils' ]
+39 verbose url resolved https://registry.npmjs.org/os-utils
+40 info trying registry request attempt 1 at 15:07:33
+41 http GET https://registry.npmjs.org/os-utils
+42 info retry will retry, error on last attempt: Error: connect ECONNREFUSED
+43 info trying registry request attempt 2 at 15:07:44
+44 http GET https://registry.npmjs.org/os-utils
+45 info retry will retry, error on last attempt: Error: connect ECONNREFUSED
+46 info trying registry request attempt 3 at 15:08:46
+47 http GET https://registry.npmjs.org/os-utils
+48 silly lockFile 6c3a734d-os-utils os-utils@*
+49 silly lockFile 6c3a734d-os-utils os-utils@*
+50 error Error: connect ECONNREFUSED
+50 error     at errnoException (net.js:904:11)
+50 error     at Object.afterConnect [as oncomplete] (net.js:895:19)
+50 error  { [Error: connect ECONNREFUSED]
+50 error   code: 'ECONNREFUSED',
+50 error   errno: 'ECONNREFUSED',
+50 error   syscall: 'connect',
+50 error   parent: 'wpd' }
+51 error If you are behind a proxy, please make sure that the
+51 error 'proxy' config is set properly.  See: 'npm help config'
+52 error System Windows_NT 6.1.7601
+53 error command "D:\\install\\nodejs\\\\node.exe" "D:\\install\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "-save"
+54 error cwd D:\install\nodejs\ws\openshift\webperf
+55 error node -v v0.10.28
+56 error npm -v 1.4.9
+57 error syscall connect
+58 error code ECONNREFUSED
+59 error errno ECONNREFUSED
+60 error stack Error: connect ECONNREFUSED
+60 error stack     at errnoException (net.js:904:11)
+60 error stack     at Object.afterConnect [as oncomplete] (net.js:895:19)
+61 verbose exit [ 1, true ]

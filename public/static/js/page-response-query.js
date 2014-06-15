@@ -2,22 +2,23 @@ $(document).ready(
 		
 		function() {
 			var uriArray = [];
-			var uriArrayIndex =0;
+			var uriArrayIndex =-1;
 			
 			var index = {
 				Page : 0,
 				Country : 1,
 				Time : 2,
-				Count : 3,
-				Total : 4,
-				Redirect : 5,
+				CNT : 3,
+				TT : 4,
+				RD : 5,
 				DNS : 6,
-				Connection : 7,
-				Server : 8,
-				Download : 9,
-				DOM : 10,
-				Load : 11,
-				TableType : 12
+				CON : 7,
+				FB : 8,
+				SVR : 9,
+				DWN : 10,
+				DOM : 11,
+				LD : 12,
+				TableType : 13
 			};
 						
 			var oTable = $('#dataTable').dataTable({
@@ -31,6 +32,7 @@ $(document).ready(
 				              { "sType": "numeric", "mData": "dns" },
 				              { "sType": "numeric", "mData": "con" },
 				              { "sType": "numeric", "mData": "rq" },
+							  { "sType": "numeric", "mData": "st" },
 				              { "sType": "numeric", "mData": "rs" },
 				              { "sType": "numeric", "mData": "dom" },
 				              { "sType": "numeric", "mData": "ld" },
@@ -51,19 +53,19 @@ $(document).ready(
 					} else if (tableType == "PAGE_DAY_RANGE") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, false);
-						$("#tableTypeHeading").text("Country wise response time breakup. Double click on the row to see day wise break up.");
+						$("#tableTypeHeading").text("Country wise response time breakup. Double click on the row to see day wise break up. Right double click to go back.");
 					} else if (tableType == "PAGE_COUNTRY_DAY") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, true);
-						$("#tableTypeHeading").text("Day wise response time breakup. Double click on the row to see hour wise break up.");
+						$("#tableTypeHeading").text("Day wise response time breakup. Double click on the row to see hour wise break up. Right double click to go back.");
 					} else if (tableType == "PAGE_COUNTRY_HOUR") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, true);
-						$("#tableTypeHeading").text("Hour wise response time breakup. Double click on the row to see minute wise break up.");
+						$("#tableTypeHeading").text("Hour wise response time breakup. Double click on the row to see minute wise break up. Right double click to go back.");
 					} else if (tableType == "PAGE_COUNTRY_MIN") {
 						oTable.fnSetColumnVis(index.Country, true);
 						oTable.fnSetColumnVis(index.Time, true);
-						$("#tableTypeHeading").text("Minute wise response time breakup");
+						$("#tableTypeHeading").text("Minute wise response time breakup. Right double click to go back.");
 					}
 				}
 			});			
@@ -109,7 +111,7 @@ $(document).ready(
 
 			$('#form').submit(function(event) {
 				event.preventDefault();
-				uriArrayIndex = 0;
+				uriArrayIndex = -1;
 				$('#tableChartDiv').show();
 				var query = $(this).serialize();
 				loadNext('/page-response-query/dayrange?' + query);
@@ -128,8 +130,8 @@ $(document).ready(
 			});
 			
 			function loadNext(uri) {
-				uriArray[uriArrayIndex] = uri;
 				++uriArrayIndex;
+				uriArray[uriArrayIndex] = uri;
 				oTable.fnReloadAjax(uri);
 			}
 			

@@ -16,6 +16,7 @@ function minmap() {
 		dns : this.dns,
 		con : this.con,
 		rq : this.rq,
+		st : this.st,
 		rs : this.rs,
 		dom : this.dom,
 		ld : this.ld,
@@ -24,6 +25,7 @@ function minmap() {
 		app : this.app,
 		pg : this.pg,
 		ctr: this.ctr,
+		sn: this.sn,
 		ts : ts
 	}, value);
 };
@@ -42,6 +44,7 @@ function hourmap() {
 		dns : this.value.dns,
 		con : this.value.con,
 		rq : this.value.rq,
+		st : this.value.st,
 		rs : this.value.rs,
 		dom : this.value.dom,
 		ld : this.value.ld,
@@ -50,6 +53,7 @@ function hourmap() {
 		app : this._id.app,
 		pg : this._id.pg,
 		ctr : this._id.ctr,
+		sn: this._id.sn,
 		ts : ts
 	}, value);
 };
@@ -69,6 +73,7 @@ function daymap() {
 		dns : this.value.dns,
 		con : this.value.con,
 		rq : this.value.rq,
+		st : this.value.st,
 		rs : this.value.rs,
 		dom : this.value.dom,
 		ld : this.value.ld,
@@ -77,6 +82,7 @@ function daymap() {
 		app : this._id.app,
 		pg : this._id.pg,
 		ctr : this._id.ctr,
+		sn: this._id.sn,
 		ts : ts
 	}, value);
 };
@@ -89,6 +95,7 @@ function reduce(key, values) {
 	var dns = 0;
 	var con = 0;
 	var rq = 0;
+	var st = 0;
 	var rs = 0;
 	var dom = 0;
 	var ld = 0;
@@ -100,6 +107,7 @@ function reduce(key, values) {
 		dns += value.dns;
 		con += value.con;
 		rq += value.rq;
+		st += value.st;
 		rs += value.rs;
 		dom += value.dom;
 		ld += value.ld;
@@ -112,6 +120,7 @@ function reduce(key, values) {
 		dns : dns,
 		con : con,
 		rq : rq,
+		st : st,
 		rs : rs,
 		dom : dom,
 		ld : ld,
@@ -125,6 +134,7 @@ function finalize(key, value) {
 		value.dns = Math.round(value.dns / value.pcnt);
 		value.con = Math.round(value.con / value.pcnt);
 		value.rq = Math.round(value.rq / value.pcnt);
+		value.st = Math.round(value.st / value.pcnt);
 		value.rs = Math.round(value.rs / value.pcnt);
 		value.dom = Math.round(value.dom / value.pcnt);
 		value.ld = Math.round(value.ld / value.pcnt);
@@ -137,4 +147,3 @@ exports.hourmap = hourmap;
 exports.daymap = daymap;
 exports.reduce = reduce;
 exports.finalize = finalize;
-

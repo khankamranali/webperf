@@ -6,8 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var mongo = require('mongoskin');
+var responseTime = require('./my_modules/response_time');
 
-var mongodbConnectionString = "mongodb://localhost:27017/perf"
+var mongodbConnectionString = "mongodb://localhost:27017/webperf"
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
   mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
 }
@@ -52,7 +53,7 @@ app.use(session({ secret: 'keyboard cat', name: 'sid', store: sessionstore.creat
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-  
+app.use(responseTime());  
 // Make our db accessible to our router
 app.use(function(req,res,next){
     req.db = db;

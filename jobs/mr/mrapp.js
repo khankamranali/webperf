@@ -5,7 +5,7 @@ const
 	mongo = require('mongoskin');
 
 
-var mongodbConnectionString = "mongodb://localhost:27017/perf"
+var mongodbConnectionString = "mongodb://localhost:27017/webperf"
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
   mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
 }
@@ -28,7 +28,7 @@ var cronJob = cron.job("0/10 * * * * *", function(){
 
 cronJob.start();
 
-function runMinMR(callback) {
+var runMinMR = function(callback) {
 		console.log('Starting Min MR.');
 		db.collection('conf').findOne( function (err, conf) {
 			var ts = conf.min;
@@ -53,7 +53,7 @@ function runMinMR(callback) {
 		});
 };
 
-function runHourMR(callback) {
+var runHourMR = function(callback) {
 		console.log('Starting Hour MR.');
 		db.collection('conf').findOne( function (err, conf) {
 			var ts = conf.hour;
@@ -78,7 +78,7 @@ function runHourMR(callback) {
 		});
 };
 
-function runDayMR(callback) {
+var runDayMR = function(callback) {
 		console.log('Starting Day MR.');
 		db.collection('conf').findOne( function (err, conf) {
 			var ts = conf.day;
@@ -105,7 +105,7 @@ function runDayMR(callback) {
 };
 
 // create required collections and create indexes
-function init(callback) {
+var  init = function(callback) {
 	// create conf table which is required to run MR jobs
 	db.collection('conf').find().toArray(function(err, result) {
 		if (err) throw err;

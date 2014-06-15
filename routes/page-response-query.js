@@ -18,6 +18,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 							   dns: {$avg: "$value.dns"},
 							   con: {$avg: "$value.con"},
 							   rq: {$avg: "$value.rq"},
+							   st: {$avg: "$value.st"},
 							   rs: {$avg: "$value.rs"},
 							   dom: {$avg: "$value.dom"},
 							   ld: {$avg: "$value.ld"}
@@ -33,6 +34,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 							   dns: 1,
 							   con: 1,
 							   rq: 1,
+							   st: 1,
 							   rs: 1,
 							   dom: 1,
 							   ld: 1
@@ -53,6 +55,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 				entry.dns = Math.floor(entry.dns);
 				entry.con = Math.floor(entry.con);
 				entry.rq = Math.floor(entry.rq);
+				entry.st = Math.floor(entry.st);
 				entry.rs = Math.floor(entry.rs);
 				entry.dom = Math.floor(entry.dom);
 				entry.ld = Math.floor(entry.ld);
@@ -80,6 +83,7 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 							   dns: {$avg: "$value.dns"},
 							   con: {$avg: "$value.con"},
 							   rq: {$avg: "$value.rq"},
+							   st: {$avg: "$value.st"},
 							   rs: {$avg: "$value.rs"},
 							   dom: {$avg: "$value.dom"},
 							   ld: {$avg: "$value.ld"}
@@ -97,6 +101,7 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 							   dns: 1,
 							   con: 1,
 							   rq: 1,
+							   st:1,
 							   rs: 1,
 							   dom: 1,
 							   ld: 1
@@ -111,6 +116,15 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 			result.forEach( function(entry) {
 				entry.ts=moment(fromTs).format("YYYY-MM-DDTHH:mm")+' - '+moment(toTs).format("YYYY-MM-DDTHH:mm");
 				entry.tableType="PAGE_DAY_RANGE"
+				entry.tt = Math.floor(entry.tt);
+				entry.rd = Math.floor(entry.rd);
+				entry.dns = Math.floor(entry.dns);
+				entry.con = Math.floor(entry.con);
+				entry.rq = Math.floor(entry.rq);
+				entry.st = Math.floor(entry.st);
+				entry.rs = Math.floor(entry.rs);
+				entry.dom = Math.floor(entry.dom);
+				entry.ld = Math.floor(entry.ld);
 			});
 			res.json({sEcho:1, iTotalRecords:result.length, iTotalDisplayRecords:result.length, aaData:result});
 		}
