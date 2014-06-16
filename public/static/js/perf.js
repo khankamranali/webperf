@@ -42,7 +42,7 @@ var wpa = function() {
 	}
 		
 	_XMLHttpRequest = window.XMLHttpRequest;
-	return window.XMLHttpRequest = function() {
+	window.XMLHttpRequest = function() {
             var req, _open, _send;
             req = new _XMLHttpRequest;
             try {
