@@ -59,10 +59,13 @@ app.use(function(req,res,next){
     req.db = db;
     next();
 });
-
-app.use(function(req,res,next){
-    next();
+//append request and session to use directly in views and avoid passing around in every controller
+app.use(function(req, res, next) {
+    res.locals.req = req;
+	res.locals.res = res;
+    next(null, req, res);
 });
+
 
 app.use('/', ui);
 app.use('/', login);
@@ -72,14 +75,15 @@ app.use('/page-response-chart', pageResponseAnalysis);
 app.use('/page-response-analysis', pageViewAnalysis);
 app.use('/page-response-heatmap', analysisOnWorldMap);
 
-/// catch 404 and forward to error handler
+
+// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-/// error handlers
+// error handlers
 
 // development error handler
 // will print stacktrace

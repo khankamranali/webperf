@@ -151,7 +151,7 @@
     "@navbar-default-toggle-icon-bar-bg": "#888",
     "@navbar-default-toggle-border-color": "#ddd",
     "@navbar-inverse-color": "@gray-light",
-    "@navbar-inverse-bg": "#222",
+    "@navbar-inverse-bg": "#000",
     "@navbar-inverse-border": "darken(@navbar-inverse-bg, 10%)",
     "@navbar-inverse-link-color": "@gray-light",
     "@navbar-inverse-link-hover-color": "#fff",
