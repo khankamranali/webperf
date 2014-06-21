@@ -16,11 +16,11 @@ $(document).ready(
 			
 			function createSeries(data) {
 				var series = 	[
-									{label:"Total", sname: "tt", data:[]},{label:"Redirect", sname: "rd", data:[]},
-									{label:"DNS", sname: "dns", data:[]},{label:"Connection", sname: "con", data:[]},
-									{label:"Server", sname: "rq", data:[]},{label:"Download", sname: "rs", data:[]},
-									{label:"DOM", sname: "dom", data:[]},{label:"Load", sname: "ld", data:[]},
-									{label:"Transactions", sname: "cnt", data:[]}
+									{label:"Total", sname: "tt", data:[]}, {label:"Redirect", sname: "rd", data:[]},
+									{label:"DNS", sname: "dns", data:[]}, {label:"Connection", sname: "con", data:[]},
+									{label:"FirstByte", sname: "rq", data:[]}, {label:"Server", sname: "st", data:[]},
+									{label:"Download", sname: "rs", data:[]}, {label:"DOM", sname: "dom", data:[]},
+									{label:"Load", sname: "ld", data:[]}, {label:"Transactions", sname: "cnt", data:[]}
 								];
 								
 				for ( var i = 0; i < data.length; i += 1) {

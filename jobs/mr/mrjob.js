@@ -102,15 +102,15 @@ function reduce(key, values) {
 	values.forEach(function(value) {
 		cnt += value.cnt;
 		pcnt += value.pcnt;
-		tt += value.tt;
-		rd += value.rd;
-		dns += value.dns;
-		con += value.con;
-		rq += value.rq;
-		st += value.st;
-		rs += value.rs;
-		dom += value.dom;
-		ld += value.ld;
+		tt += value.pcnt*value.tt;
+		rd += value.pcnt*value.rd;
+		dns += value.pcnt*value.dns;
+		con += value.pcnt*value.con;
+		rq += value.pcnt*value.rq;
+		st += value.pcnt*value.st;
+		rs += value.pcnt*value.rs;
+		dom += value.pcnt*value.dom;
+		ld += value.pcnt*value.ld;
 	});
 	return {
 		cnt : cnt,

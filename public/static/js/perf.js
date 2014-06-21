@@ -1,4 +1,4 @@
-if (typeof window.addEventListener === "function") {
+if (typeof window.addEventListener === "function" && window.performance) {
     window.addEventListener('load', function() {
         return setTimeout(function() {
             return wpa();
@@ -10,36 +10,30 @@ var wpa = function() {
 	//var CONF = {app:window.location.hostname, host:"localhost", protocol:window.location.protocol, httpsport:"3443", httpport:"3000"};
 	var CONF = {app:window.location.hostname, host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
 
-	var PT = function(pg) {	
-		this.app=CONF.app; this.pg=pg; this.tt=0;
-		this.rd=0; this.dns=0; this.con=0; this.rq=0;
-		this.rs=0; this.dom=0; this.ld=0; this.st=0;
-		this.sn='Unknown';
-	};
+	var PT = function(pg) {	return {app:CONF.app, pg:pg, tt:0, rd:0, dns:0, con:0, rq:0, rs:0, dom:0, ld:0, st:0, sn:'Unknown'}};
 	
+	//pathname without query string
+	var pt = new PT(window.location.pathname.split('?')[0]);	
+		
+	//Set browser performance data
+	var t = performance.timing;
+	pt.tt =  t.loadEventEnd - t.navigationStart;
+	pt.rd = t.redirectEnd - t.redirectStart;
+	pt.dns = t.domainLookupEnd - t.domainLookupStart;
+	pt.con = t.connectEnd - t.connectStart;
+	pt.rq = t.responseStart - t.requestStart;
+	pt.rs = t.responseEnd - t.responseStart;
+	pt.dom  = t.loadEventStart - t.responseEnd;
+	pt.ld  = t.loadEventEnd - t.loadEventStart;
 	
-		
-	if (window.performance) {
-		//pathname without query string
-		var pt = new PT(window.location.pathname.split('?')[0]);	
-		var serverTime = readCookie('wpa-st');
-		serverTime = serverTime ? serverTime : 0;
-		var serverName = readCookie('wpa-sn');
-		serverName = serverName ? serverName : 'Unknown';
-		
-		var t = performance.timing;
-		pt.tt =  t.loadEventEnd - t.navigationStart;
-		pt.rd = t.redirectEnd - t.redirectStart;
-		pt.dns = t.domainLookupEnd - t.domainLookupStart;
-		pt.con = t.connectEnd - t.connectStart;
-		pt.rq = t.responseStart - t.requestStart;
-		pt.rs = t.responseEnd - t.responseStart;
-		pt.dom  = t.loadEventStart - t.responseEnd;
-		pt.ld  = t.loadEventEnd - t.loadEventStart;
-		pt.st = serverTime;
-		pt.sn = serverName;
-		sendBeckonCORSRequest(pt);
-	}
+	//Set server performance data
+	var serverTime = readCookie('wpa-st');
+	serverTime = serverTime ? serverTime : 0;
+	var serverName = readCookie('wpa-sn');
+	serverName = serverName ? serverName : 'Unknown';
+	pt.st = serverTime;
+	pt.sn = serverName;
+	sendBeckonCORSRequest(pt);
 		
 	_XMLHttpRequest = window.XMLHttpRequest;
 	window.XMLHttpRequest = function() {
@@ -73,6 +67,7 @@ var wpa = function() {
 							}
 							if(progress.target.readyState==4) {
 								//todo read wpa-st and wpa-sn cookie from XMLHttpRequest response and set it in pt.
+								//var c = req.getResponseHeader("Set-Cookie");
 								var pt = new PT(progress.target.requestUrl);
 								pt.tt = Math.round(Date.now()-startTime);	
 								sendBeckonCORSRequest(pt);
@@ -116,12 +111,7 @@ var wpa = function() {
 		}
 
 		function createBeckonUrl(pt) {
-			var port;
-			if (CONF.protocol=="https:") {
-				port = CONF.httpsport;
-			} else {
-				port = CONF.httpport;
-			}
+			var port = CONF.protocol=="https:" ? CONF.httpsport :	CONF.httpport;
 			var url = CONF.protocol+"//"+CONF.host+":"+port+"/tag/page?"
 			  +"app="+pt.app
 			  +"&pg="+pt.pg

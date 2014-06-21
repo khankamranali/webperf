@@ -26,7 +26,7 @@ $(document).ready(
 				              { "sType": "string", "mData": "pg"},
 				              { "sType": "string", "mData": "ctr" },
 				              { "sType": "date", "mData": "ts" },
-				              { "sType": "numeric", "mData": "cnt" },
+				              { "sType": "numeric", "mData": "pcnt" },
 				              { "sType": "numeric", "mData": "tt" },
 				              { "sType": "numeric", "mData": "rd" },
 				              { "sType": "numeric", "mData": "dns" },

@@ -27,10 +27,10 @@ router.get('/q', function(req, res) {
 							   cnt: {$sum : "$value.cnt" }, 
 							   tt: {$avg: "$value.tt"},
 							   rd: {$avg: "$value.rd"},
-							   cch: {$avg: "$value.cch"},
 							   dns: {$avg: "$value.dns"},
 							   con: {$avg: "$value.con"},
 							   rq: {$avg: "$value.rq"},
+							   st: {$avg: "$value.st"},
 							   rs: {$avg: "$value.rs"},
 							   dom: {$avg: "$value.dom"},
 							   ld: {$avg: "$value.ld"}
@@ -44,10 +44,10 @@ router.get('/q', function(req, res) {
 							   cnt : 1, 
 							   tt: 1,
 							   rd: 1,
-							   cch: 1,
 							   dns: 1,
 							   con: 1,
 							   rq: 1,
+							   st: 1,
 							   rs: 1,
 							   dom: 1,
 							   ld: 1
