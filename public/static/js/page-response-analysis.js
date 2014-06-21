@@ -7,6 +7,9 @@ $(document).ready(
 			$('#form').submit(function(event) {
 				event.preventDefault();
 				var seriesEntry = {label:this.field.value+'_'+this.interval.value+'_'+this.fromTs.value+'_'+this.toTs.value+'_'+this.country.value, sname:this.field.value, data:[]};
+				if(this.field.value=='cnt') {
+					seriesEntry['yaxis']=2
+				}
 				series.push(seriesEntry);
 				var query = $(this).serialize();
 				$.ajax({
@@ -35,6 +38,10 @@ $(document).ready(
 			function plotChart(data, seriesEntry) {
 				var options = {
 							xaxis : { mode : "time", timezone: "browser" },
+							yaxes: [ 
+								{ transform:  function(v) {return v == 0 ? v : Math.log(v);}, position: "left", axisLabel: "Time (ms)"},
+								{ position: "right", axisLabel: "Request Count"} 
+							],
 							series: { lines: { show: true }, points: { show: true } },
 							grid: { hoverable: true, clickable: true },
 							tooltip: true,

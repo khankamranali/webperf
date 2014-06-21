@@ -20,7 +20,7 @@ $(document).ready(
 									{label:"DNS", sname: "dns", data:[]}, {label:"Connection", sname: "con", data:[]},
 									{label:"FirstByte", sname: "rq", data:[]}, {label:"Server", sname: "st", data:[]},
 									{label:"Download", sname: "rs", data:[]}, {label:"DOM", sname: "dom", data:[]},
-									{label:"Load", sname: "ld", data:[]}, {label:"Transactions", sname: "cnt", data:[]}
+									{label:"Load", sname: "ld", data:[]}, {label:"Requests", sname: "cnt", data:[], yaxis: 2}
 								];
 								
 				for ( var i = 0; i < data.length; i += 1) {
@@ -37,6 +37,10 @@ $(document).ready(
 			function plotChart(data) {
 				var options = {
 							xaxis : { mode : "time", timezone: "browser" },
+							yaxes: [ 
+								{ transform:  function(v) {return v == 0 ? v : Math.log(v);}, position: "left", axisLabel: "Time (ms)"},
+								{ position: "right", axisLabel: "Request Count"} 
+							],
 							series: { lines: { show: true }, points: { show: true } },
 							grid: { hoverable: true, clickable: true },
 							tooltip: true,
