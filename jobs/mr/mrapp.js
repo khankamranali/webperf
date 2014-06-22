@@ -31,6 +31,7 @@ cronJob.start();
 var runMinMR = function(callback) {
 		console.log('Starting Min MR.');
 		db.collection('conf').findOne( function (err, conf) {
+			var startTime = new Date();
 			var ts = conf.min;
 			ts.setMilliseconds(0);
 			ts.setSeconds(0);
@@ -42,7 +43,7 @@ var runMinMR = function(callback) {
 				} else {
 					console.log('Min MR Finished.');
 					//update min timestamp
-					db.collection('conf').update({}, {'$set':{min: new Date()}}, function(err) {
+					db.collection('conf').update({}, {'$set':{min: startTime}}, function(err) {
 						if (err) {
 							console.log('Error updating min in conf collection.');
 						}
@@ -56,6 +57,7 @@ var runMinMR = function(callback) {
 var runHourMR = function(callback) {
 		console.log('Starting Hour MR.');
 		db.collection('conf').findOne( function (err, conf) {
+			var startTime = new Date();
 			var ts = conf.hour;
 			ts.setMilliseconds(0);
 			ts.setSeconds(0);
@@ -67,7 +69,7 @@ var runHourMR = function(callback) {
 				} else {
 					console.log('Hour MR Finished.');
 					//update min timestamp
-					db.collection('conf').update({}, {'$set':{hour: new Date()}}, function(err) {
+					db.collection('conf').update({}, {'$set':{hour: startTime}}, function(err) {
 						if (err) {
 							console.log('Error updating hour in conf collection.');
 						}
@@ -81,6 +83,7 @@ var runHourMR = function(callback) {
 var runDayMR = function(callback) {
 		console.log('Starting Day MR.');
 		db.collection('conf').findOne( function (err, conf) {
+			var startTime = new Date();
 			var ts = conf.day;
 			ts.setMilliseconds(0);
 			ts.setSeconds(0);
@@ -93,7 +96,7 @@ var runDayMR = function(callback) {
 				} else {
 					console.log('Day MR Finished.');
 					//update min timestamp
-					db.collection('conf').update({}, {'$set':{day: new Date()}}, function(err) {
+					db.collection('conf').update({}, {'$set':{day: startTime}}, function(err) {
 						if (err) {
 							console.log('Error updating day in conf collection.');
 						}

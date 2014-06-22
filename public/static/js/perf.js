@@ -7,8 +7,8 @@ if (typeof window.addEventListener === "function" && window.performance) {
 }
 
 var wpa = function() {
-	//var CONF = {app:window.location.hostname, host:"localhost", protocol:window.location.protocol, httpsport:"3443", httpport:"3000"};
-	var CONF = {app:window.location.hostname, host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
+	var CONF = {app:window.location.hostname, host:"localhost", protocol:window.location.protocol, httpsport:"3443", httpport:"3000"};
+	//var CONF = {app:window.location.hostname, host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
 
 	var PT = function(pg) {	return {app:CONF.app, pg:pg, tt:0, rd:0, dns:0, con:0, rq:0, rs:0, dom:0, ld:0, st:0, sn:'Unknown'}};
 	
@@ -37,51 +37,55 @@ var wpa = function() {
 		
 	_XMLHttpRequest = window.XMLHttpRequest;
 	window.XMLHttpRequest = function() {
-            var req, _open, _send;
-            req = new _XMLHttpRequest;
-            try {
-				_open = req.open;
-				req.open = function(type, url, async) {
-					try {
-						//remove query string from url
-						req.requestUrl=arguments[1].split('?')[0];
-						req.addEventListener('readystatechange', readyStateChangeListener(), false);
-					} catch (e) {
-						log.error("WPA error:", e);
-					}
-					return _open.apply(req, arguments);
-				};
+		var req, _open, _send, wpaStartTime, wpaFirstByteTime;
+        req = new _XMLHttpRequest;
+	
+        try {
+			_open = req.open;
+			req.open = function(type, url, async) {
+				try {
+					//remove query string from url
+					req.requestUrl=arguments[1].split('?')[0];
+					req.addEventListener('readystatechange', readyStateChangeListener, false);
+				} catch (e) {
+					log.error("WPA error:", e);
+				}
+				return _open.apply(req, arguments);
+			};
         
-				_send = req.send;
-				req.send = function() {
-					return _send.apply(req, arguments);
-				};
+			_send = req.send;
+			req.send = function() {
+				wpaStartTime = Date.now();
+				return _send.apply(req, arguments);
+			};
+		} catch (e) {
+            log.error("WPA error:", e);
+        }
 			
-				var readyStateChangeListener = function () {
-					var startTime = Date.now();
-					var listen = function (progress) {
-						try {
-							//ignore Beckon request
-							if (progress.target.isBeckon) {
-								return;
-							}
-							if(progress.target.readyState==4) {
-								//todo read wpa-st and wpa-sn cookie from XMLHttpRequest response and set it in pt.
-								//var c = req.getResponseHeader("Set-Cookie");
-								var pt = new PT(progress.target.requestUrl);
-								pt.tt = Math.round(Date.now()-startTime);	
-								sendBeckonCORSRequest(pt);
-							}
-						} catch (e) {
-							console.log(e);
-						}
-					};
-					return listen;
-				};
-            } catch (e) {
-              log.error("WPA error:", e);
-            }
-            return req;
+		var readyStateChangeListener = function (progress) {
+			try {
+				//ignore Beckon request
+				if (progress.target.isBeckon) {
+					return;
+				}
+				if(progress.target.readyState==2) {
+					wpaFirstByteTime = Date.now();
+				} else if(progress.target.readyState==4) {
+					//todo read wpa-st and wpa-sn cookie from XMLHttpRequest response and set it in pt.
+					//var c = req.getResponseHeader("Set-Cookie");
+					var pt = new PT(progress.target.requestUrl);
+					var now = Date.now();
+					pt.tt = Math.round(now - wpaStartTime);
+					pt.rq = Math.round(wpaFirstByteTime - wpaStartTime);
+					pt.rs = Math.round(now - wpaFirstByteTime);
+					sendBeckonCORSRequest(pt);
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		};
+			
+        return req;
     };
 		
 	function sendBeckonCORSRequest(pt) {
