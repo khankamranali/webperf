@@ -38,7 +38,9 @@ $(document).ready(
 				var options = {
 							xaxis : { mode : "time", timezone: "browser" },
 							yaxes: [ 
-								{ transform:  function(v) {return v == 0 ? v : Math.log(v);}, position: "left", axisLabel: "Time (ms)"},
+								{ transform:  function(v) {return v == 0 ? v : Math.log(v);}, 
+								inverseTransform: function (v) { return Math.exp(v);},
+								position: "left", axisLabel: "Time (ms)"},
 								{ position: "right", axisLabel: "Request Count"} 
 							],
 							series: { lines: { show: true }, points: { show: true } },
