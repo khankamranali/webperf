@@ -72,7 +72,7 @@ var wpa = function() {
 					wpaFirstByteTime = Date.now();
 				} else if(progress.target.readyState==4) {
 					//todo read wpa-st and wpa-sn cookie from XMLHttpRequest response and set it in pt.
-					//var c = req.getResponseHeader("Set-Cookie");
+					var c = req.getAllResponseHeaders();
 					var pt = new PT(progress.target.requestUrl);
 					var now = Date.now();
 					pt.tt = Math.round(now - wpaStartTime);

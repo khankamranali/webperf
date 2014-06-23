@@ -1,6 +1,6 @@
 
 var onHeaders = require('on-headers')
-var os  = require('os-utils');
+var os  = require('os');
 
 /**
  * Reponse time:
@@ -22,7 +22,10 @@ module.exports = function responseTime(digits) {
     onHeaders(res, function () {
       var diff = process.hrtime(startAt);
       var ms = diff[0] * 1e3 + diff[1] * 1e-6;
-	  res.cookie('wpa-st', ms.toFixed(digits), { httpOnly: false });
+	  ms = ms.toFixed(digits);
+	  var s = 'st='+ms+';'+'sn='+os.hostname();
+	  res.setHeader('X-WPA', s);
+	  res.cookie('WPA', s, { path: '/WPA', httpOnly: false });
     })
     next();
   }

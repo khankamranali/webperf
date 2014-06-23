@@ -7,9 +7,10 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 	var fromTs = moment(req.query.fromTs.trim()).toDate();
 	var toTs = moment(req.query.toTs.trim()).toDate();
 	var app = req.session.app;
+	var tt = parseInt(req.query.tt.trim());
 	
 	var pipeline = [
-					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app} },
+					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app, "value.tt":{$gte:tt}} },
 					{ 	$group :
 							 { _id : "$_id.pg",
 							   pcnt : { $sum: "$value.pcnt" }, 
@@ -173,7 +174,6 @@ router.get('/page/country/hour', ensureAuthenticated, function(req, res) {
 		} else {
 			newResult = []
 			result.forEach( function(entry) {
-				console.log(entry);
 				var e = entry.value;
 				e.pg = entry._id.pg;
 				e.ctr = entry._id.ctr;
@@ -203,7 +203,6 @@ router.get('/page/country/min', ensureAuthenticated, function(req, res) {
 		} else {
 			newResult = []
 			result.forEach( function(entry) {
-				console.log(entry);
 				var e = entry.value;
 				e.pg = entry._id.pg;
 				e.ctr = entry._id.ctr;

@@ -144,5 +144,8 @@ var  init = function(callback) {
 	db.collection('page.day').ensureIndex({'_id.app':1, '_id.ts':-1, '_id.pg':1}, function(err, result) {
 		if (err) throw err;
 	});
+	db.collection('page.day').ensureIndex({'_id.app':1, '_id.ts':-1, 'value.tt':1}, function(err, result) {
+		if (err) throw err;
+	});
 	callback();
 };
