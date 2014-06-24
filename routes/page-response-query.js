@@ -49,7 +49,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 		} else {
 			result.forEach( function(entry) {
 				entry.ctr=null;
-				entry.ts=moment(fromTs).format("YYYY-MM-DDTHH:mm")+' - '+moment(toTs).format("YYYY-MM-DDTHH:mm");
+				entry.ts=moment(fromTs).format("YYYY-MM-DDTHH:mm Z")+' - '+moment(toTs).format("YYYY-MM-DDTHH:mm Z");
 				entry.tableType="DAY_RANGE";
 				entry.tt = Math.floor(entry.tt);
 				entry.rd = Math.floor(entry.rd);
@@ -68,9 +68,9 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 
 /* Page day range */
 router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).toDate();
-	var pg = req.query.page;
+	var fromTs = moment(req.query.fromTs.trim(),'YYYY-MM-DDTHH:mm Z').toDate();
+	var toTs = moment(req.query.toTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var pg = req.query.page.trim();
 	var app = req.session.app;
 	
 	var pipeline = [
@@ -113,7 +113,7 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 			res.json({err:err});
 		} else {
 			result.forEach( function(entry) {
-				entry.ts=moment(fromTs).format("YYYY-MM-DDTHH:mm")+' - '+moment(toTs).format("YYYY-MM-DDTHH:mm");
+				entry.ts=moment(fromTs).format("YYYY-MM-DDTHH:mm Z")+' - '+moment(toTs).format("YYYY-MM-DDTHH:mm Z");
 				entry.tableType="PAGE_DAY_RANGE"
 				entry.tt = Math.floor(entry.tt);
 				entry.rd = Math.floor(entry.rd);
@@ -132,10 +132,10 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 
 /* Page country day */
 router.get('/page/country/day', ensureAuthenticated, function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).toDate();
-	var pg = req.query.page;
-	var ctr = req.query.country;
+	var fromTs = moment(req.query.fromTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var toTs = moment(req.query.toTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var pg = req.query.page.trim();
+	var ctr = req.query.country.trim();
 	var app = req.session.app;
 	
 	var where = {"_id.ts": {"$gte": fromTs, "$lte": toTs}, "_id.pg": pg, "_id.ctr": ctr, "_id.app":app};
@@ -149,7 +149,7 @@ router.get('/page/country/day', ensureAuthenticated, function(req, res) {
 				var e = entry.value;
 				e.pg = entry._id.pg;
 				e.ctr = entry._id.ctr;
-				e.ts = moment(entry._id.ts).format("YYYY-MM-DDTHH:mm");
+				e.ts = moment(entry._id.ts).format("YYYY-MM-DDTHH:mm Z");
 				e.tableType="PAGE_COUNTRY_DAY"
 				newResult.push(e);
 			});
@@ -160,10 +160,10 @@ router.get('/page/country/day', ensureAuthenticated, function(req, res) {
 
 /* Page country hour */
 router.get('/page/country/hour', ensureAuthenticated, function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).toDate();
-	var pg = req.query.page;
-	var ctr = req.query.country;
+	var fromTs = moment(req.query.fromTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var toTs = moment(req.query.toTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var pg = req.query.page.trim();
+	var ctr = req.query.country.trim();
 	var app = req.session.app;
 	
 	var where = {"_id.ts": {"$gte": fromTs, "$lte": toTs}, "_id.pg": pg, "_id.ctr": ctr, "_id.app":app};
@@ -177,7 +177,7 @@ router.get('/page/country/hour', ensureAuthenticated, function(req, res) {
 				var e = entry.value;
 				e.pg = entry._id.pg;
 				e.ctr = entry._id.ctr;
-				e.ts = moment(entry._id.ts).format("YYYY-MM-DDTHH:mm");
+				e.ts = moment(entry._id.ts).format("YYYY-MM-DDTHH:mm Z");
 				e.tableType="PAGE_COUNTRY_HOUR"
 				newResult.push(e);
 			});
@@ -189,10 +189,10 @@ router.get('/page/country/hour', ensureAuthenticated, function(req, res) {
 
 /* Page country minute */
 router.get('/page/country/min', ensureAuthenticated, function(req, res) {
-	var fromTs = moment(req.query.fromTs).toDate();
-	var toTs = moment(req.query.toTs).toDate();
-	var pg = req.query.page;
-	var ctr = req.query.country;
+	var fromTs = moment(req.query.fromTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var toTs = moment(req.query.toTs.trim(), 'YYYY-MM-DDTHH:mm Z').toDate();
+	var pg = req.query.page.trim();
+	var ctr = req.query.country.trim();
 	var app = req.session.app;
 	
 	var where = {"_id.ts": {"$gte": fromTs, "$lte": toTs}, "_id.pg": pg, "_id.ctr": ctr, "_id.app":app};
@@ -206,7 +206,7 @@ router.get('/page/country/min', ensureAuthenticated, function(req, res) {
 				var e = entry.value;
 				e.pg = entry._id.pg;
 				e.ctr = entry._id.ctr;
-				e.ts = moment(entry._id.ts).format("YYYY-MM-DDTHH:mm");
+				e.ts = moment(entry._id.ts).format("YYYY-MM-DDTHH:mm Z");
 				e.tableType="PAGE_COUNTRY_MIN"
 				newResult.push(e);
 			});

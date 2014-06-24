@@ -7,8 +7,8 @@ if (typeof window.addEventListener === "function" && window.performance) {
 }
 
 var wpa = function() {
-	var CONF = {app:window.location.hostname, host:"localhost", protocol:window.location.protocol, httpsport:"3443", httpport:"3000"};
-	//var CONF = {app:window.location.hostname, host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
+	//var CONF = {app:window.location.hostname, host:"localhost", protocol:window.location.protocol, httpsport:"3443", httpport:"3000"};
+	var CONF = {app:window.location.hostname, host:"webperf-khankamranali.rhcloud.com", protocol:window.location.protocol, httpsport:"443", httpport:"80"};
 
 	var PT = function(pg) {	return {app:CONF.app, pg:pg, tt:0, rd:0, dns:0, con:0, rq:0, rs:0, dom:0, ld:0, st:0, sn:'Unknown'}};
 	

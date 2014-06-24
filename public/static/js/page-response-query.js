@@ -80,28 +80,27 @@ $(document).ready(
 							var dates = rowData.ts.split(" - ");
 							var fromTs = dates[0];
 							var toTs = dates[1];
-							uri = '/page-response-query/page/dayrange?page=' + rowData.pg+ '&fromTs=' + fromTs + '&toTs=' + toTs;
+							uri = '/page-response-query/page/dayrange?page=' + rowData.pg+ '&fromTs=' + encodeURIComponent(fromTs) + '&toTs=' + encodeURIComponent(toTs);
 						} else if (tableType == "PAGE_DAY_RANGE") {
 							var dates = rowData.ts.split(" - ");
 							var fromTs = dates[0];
 							var toTs = dates[1];
 							var country = rowData.ctr;
 							uri = '/page-response-query/page/country/day?page=' + rowData.pg + '&country=' + country 
-									+ '&fromTs=' + fromTs + '&toTs=' + toTs;
+									+ '&fromTs=' + encodeURIComponent(fromTs) + '&toTs=' + encodeURIComponent(toTs);
 						} else if (tableType == "PAGE_COUNTRY_DAY") {
-							var fromTs = moment(rowData.ts);
-							var toTs = moment(fromTs);
+							var fromTs = moment(rowData.ts, 'YYYY-MM-DDTHH:mm Z');
+							var toTs = moment(fromTs, 'YYYY-MM-DDTHH:mm Z');
 							toTs.add('days', 1);
 							var country = rowData.ctr;
 							uri = '/page-response-query/page/country/hour?page=' + rowData.pg + '&country=' + country + '&fromTs='
-									+ fromTs.format('YYYY-MM-DDTHH:mm') + '&toTs=' + toTs.format('YYYY-MM-DDTHH:mm');
+									+ encodeURIComponent(fromTs.format('YYYY-MM-DDTHH:mm Z')) + '&toTs=' + encodeURIComponent(toTs.format('YYYY-MM-DDTHH:mm Z'));
 						} else if (tableType == "PAGE_COUNTRY_HOUR") {
-							var fromTs = moment(rowData.ts);
-							var toTs = moment(fromTs);
+							var fromTs = moment(rowData.ts, 'YYYY-MM-DDTHH:mm Z');
+							var toTs = moment(fromTs, 'YYYY-MM-DDTHH:mm Z');
 							toTs.add('hours', 1);
 							var country = rowData.ctr;
-							uri = '/page-response-query/page/country/min?page=' + rowData.pg + '&country=' + country + '&fromTs=' + fromTs.format('YYYY-MM-DDTHH:mm')
-									+ '&toTs=' + toTs.format('YYYY-MM-DDTHH:mm');
+							uri = '/page-response-query/page/country/min?page=' + rowData.pg + '&country=' + country + '&fromTs=' + encodeURIComponent(fromTs.format('YYYY-MM-DDTHH:mm Z')) + '&toTs=' + encodeURIComponent(toTs.format('YYYY-MM-DDTHH:mm Z'));
 						} else {
 							return;
 						}
