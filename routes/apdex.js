@@ -25,15 +25,8 @@ router.get('/q', function(req, res) {
 							 { 
 							   _id: {year: { $year: "$_id.ts" }, month: { $month: "$_id.ts" }, day: {$dayOfMonth: "$_id.ts"}, hour: {$hour: "$_id.ts"}, minute: {$minute: "$_id.ts"}},
 							   cnt: {$sum : "$value.cnt" }, 
-							   tt: {$avg: "$value.tt"},
-							   rd: {$avg: "$value.rd"},
-							   dns: {$avg: "$value.dns"},
-							   con: {$avg: "$value.con"},
-							   rq: {$avg: "$value.rq"},
-							   st: {$avg: "$value.st"},
-							   rs: {$avg: "$value.rs"},
-							   dom: {$avg: "$value.dom"},
-							   ld: {$avg: "$value.ld"}
+							   asc: {$sum: "$value.asc"},
+							   atc: {$sum: "$value.atc"},
 							 }
 					},
 					{ $sort: { "_id": 1 } },
@@ -42,15 +35,8 @@ router.get('/q', function(req, res) {
 							   _id: 0,
 							   ts: "$_id",
 							   cnt : 1, 
-							   tt: 1,
-							   rd: 1,
-							   dns: 1,
-							   con: 1,
-							   rq: 1,
-							   st: 1,
-							   rs: 1,
-							   dom: 1,
-							   ld: 1
+							   asc: 1,
+							   atc: 1
 							}
 					}
 				];
@@ -59,6 +45,13 @@ router.get('/q', function(req, res) {
 		if(err) {
 			res.json({err:err});
 		} else {
+			result.forEach( function(entry) {
+				entry.apdx = (entry.asc + (entry.atc/2))/entry.cnt;
+				entry.apdx = entry.apdx.toFixed(2);
+				entry.afc = Math.floor(((entry.cnt-(entry.asc+entry.atc))/entry.cnt)*100);
+				entry.asc = Math.floor((entry.asc/entry.cnt)*100);
+				entry.atc = Math.floor((entry.atc/entry.cnt)*100);
+			});
 			res.json(result);
 		}
 	});

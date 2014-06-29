@@ -2,7 +2,7 @@ if (typeof window.addEventListener === "function" && window.performance) {
     window.addEventListener('load', function() {
         return setTimeout(function() {
             return wpa();
-        }, 500);
+        }, 100);
     }, false);
 }
 
@@ -35,13 +35,13 @@ var wpa = function() {
 	pt.sn = serverName;
 	sendBeckonCORSRequest(pt);
 		
-	_XMLHttpRequest = window.XMLHttpRequest;
+	oXMLHttpRequest = window.XMLHttpRequest;
 	window.XMLHttpRequest = function() {
-		var req, _open, _send, wpaStartTime, wpaFirstByteTime;
-        req = new _XMLHttpRequest;
+		var req, oOpen, oSend, wpaStartTime, wpaFirstByteTime;
+        req = new oXMLHttpRequest;
 	
         try {
-			_open = req.open;
+			oOpen = req.open;
 			req.open = function(type, url, async) {
 				try {
 					//remove query string from url
@@ -50,13 +50,13 @@ var wpa = function() {
 				} catch (e) {
 					log.error("WPA error:", e);
 				}
-				return _open.apply(req, arguments);
+				return oOpen.apply(req, arguments);
 			};
         
-			_send = req.send;
+			oSend = req.send;
 			req.send = function() {
 				wpaStartTime = Date.now();
-				return _send.apply(req, arguments);
+				return oSend.apply(req, arguments);
 			};
 		} catch (e) {
             log.error("WPA error:", e);
@@ -94,22 +94,15 @@ var wpa = function() {
 			var url = createBeckonUrl(pt);
 			var xhr = new XMLHttpRequest();
 			if ("withCredentials" in xhr) {
-				// Check if the XMLHttpRequest object has a "withCredentials" property.
-				// "withCredentials" only exists on XMLHTTPRequest2 objects.
 				xhr.open(method, url, true);
 			} else if (typeof XDomainRequest != "undefined") {
-				// Otherwise, check if XDomainRequest.
-				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
 				xhr = new XDomainRequest();
 				xhr.open(method, url);
 			} else {
-				// Otherwise, CORS is not supported by the browser.
-				xhr = null;
+				return;
 			}
-			if (xhr!=null) {
-				xhr.isBeckon = true;
-				xhr.send(null);
-			}
+			xhr.isBeckon = true;
+			xhr.send(null);
 		} catch (e) {
 			console.log(e);
 		}

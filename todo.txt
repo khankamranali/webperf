@@ -1,0 +1,6 @@
+Apdex
+Analytics
+where to focus on performance? How improving the server reponse time will improve the overall performance? how reducing the page contents will improve the performance.
+Tell that increasing number of users by 10% will result in a 25% reduction in end user experience for all users.
+dynamic baseline
+add broser and device info

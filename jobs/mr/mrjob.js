@@ -1,25 +1,35 @@
+//tt=total time, rd=redirector time, dns=dns lookup time, con=tpc connection time, rq=first byte time, st=server time, rs= download time,
+//dom=dom time, ld=load time, cnt= request count, sn=server name, cpu=server cpu, dsk= disk io, net=server network, asc=apdex setisfied count, atc= apdex tolerating count
+
 function minmap() {
 	var ts = this.ts;
+	var apdexSatisfiedThreshold = 3000;
+	var apdexToleratingThreshold = 4*apdexSatisfiedThreshold;
+	
 	ts.setMilliseconds(0);
 	ts.setSeconds(0);
 	
-	var pcnt = 0;
-	if (this.tt > 0) {
-		pcnt = 1;
+	var asc = 0;
+	var atc = 0;
+	if (this.tt <= apdexSatisfiedThreshold) {
+		asc = 1;
+	} else if (this.tt <= apdexToleratingThreshold) {
+		atc = 1;
 	}
 	
 	var value = {
-		cnt : 1,
-		pcnt : pcnt,
-		tt : this.tt,
-		rd : this.rd,
-		dns : this.dns,
-		con : this.con,
-		rq : this.rq,
-		st : this.st,
-		rs : this.rs,
-		dom : this.dom,
-		ld : this.ld,
+		cnt: 1,
+		tt: this.tt,
+		rd: this.rd,
+		dns: this.dns,
+		con: this.con,
+		rq: this.rq,
+		st: this.st,
+		rs: this.rs,
+		dom: this.dom,
+		ld: this.ld,
+		asc: asc,
+		atc: atc
 	};
 	emit({
 		app : this.app,
@@ -38,7 +48,6 @@ function hourmap() {
 	
 	var value = {
 		cnt : this.value.cnt,
-		pcnt : this.value.pcnt,
 		tt : this.value.tt,
 		rd : this.value.rd,
 		dns : this.value.dns,
@@ -48,6 +57,8 @@ function hourmap() {
 		rs : this.value.rs,
 		dom : this.value.dom,
 		ld : this.value.ld,
+		asc: this.value.asc,
+		atc: this.value.atc
 	};
 	emit({
 		app : this._id.app,
@@ -67,7 +78,6 @@ function daymap() {
 
 	var value = {
 		cnt : this.value.cnt,
-		pcnt : this.value.pcnt,
 		tt : this.value.tt,
 		rd : this.value.rd,
 		dns : this.value.dns,
@@ -77,6 +87,8 @@ function daymap() {
 		rs : this.value.rs,
 		dom : this.value.dom,
 		ld : this.value.ld,
+		asc: this.value.asc,
+		atc: this.value.atc
 	};
 	emit({
 		app : this._id.app,
@@ -89,7 +101,6 @@ function daymap() {
 
 function reduce(key, values) {
 	var cnt = 0;
-	var pcnt = 0;
 	var tt = 0;
 	var rd = 0;
 	var dns = 0;
@@ -99,46 +110,49 @@ function reduce(key, values) {
 	var rs = 0;
 	var dom = 0;
 	var ld = 0;
+	var asc = 0;
+	var atc = 0;
+	
 	values.forEach(function(value) {
 		cnt += value.cnt;
-		pcnt += value.pcnt;
-		tt += value.pcnt*value.tt;
-		rd += value.pcnt*value.rd;
-		dns += value.pcnt*value.dns;
-		con += value.pcnt*value.con;
-		rq += value.pcnt*value.rq;
-		st += value.pcnt*value.st;
-		rs += value.pcnt*value.rs;
-		dom += value.pcnt*value.dom;
-		ld += value.pcnt*value.ld;
+		tt += value.cnt*value.tt;
+		rd += value.cnt*value.rd;
+		dns += value.cnt*value.dns;
+		con += value.cnt*value.con;
+		rq += value.cnt*value.rq;
+		st += value.cnt*value.st;
+		rs += value.cnt*value.rs;
+		dom += value.cnt*value.dom;
+		ld += value.cnt*value.ld;
+		asc += value.asc;
+		atc += value.atc;
 	});
 	return {
-		cnt : cnt,
-		pcnt : pcnt,
-		tt : tt,
-		rd : rd,
-		dns : dns,
-		con : con,
-		rq : rq,
-		st : st,
-		rs : rs,
-		dom : dom,
-		ld : ld,
+		cnt: cnt,
+		tt: tt,
+		rd: rd,
+		dns: dns,
+		con: con,
+		rq: rq,
+		st: st,
+		rs: rs,
+		dom: dom,
+		ld: ld,
+		asc: asc,
+		atc: atc
 	};
 };
 
 function finalize(key, value) {
-	if (value.pcnt>0) {
-		value.tt = Math.round(value.tt / value.pcnt);
-		value.rd = Math.round(value.rd / value.pcnt);
-		value.dns = Math.round(value.dns / value.pcnt);
-		value.con = Math.round(value.con / value.pcnt);
-		value.rq = Math.round(value.rq / value.pcnt);
-		value.st = Math.round(value.st / value.pcnt);
-		value.rs = Math.round(value.rs / value.pcnt);
-		value.dom = Math.round(value.dom / value.pcnt);
-		value.ld = Math.round(value.ld / value.pcnt);
-	}
+	value.tt = Math.round(value.tt / value.cnt);
+	value.rd = Math.round(value.rd / value.cnt);
+	value.dns = Math.round(value.dns / value.cnt);
+	value.con = Math.round(value.con / value.cnt);
+	value.rq = Math.round(value.rq / value.cnt);
+	value.st = Math.round(value.st / value.cnt);
+	value.rs = Math.round(value.rs / value.cnt);
+	value.dom = Math.round(value.dom / value.cnt);
+	value.ld = Math.round(value.ld / value.cnt);
 	return value;
 };
 

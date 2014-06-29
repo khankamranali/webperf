@@ -6,7 +6,7 @@ $(document).ready(
 				event.preventDefault();
 				var query = $(this).serialize();
 				$.ajax({
-					url: "/page-response-chart/q?"+query,
+					url: "/apdex/q?"+query,
 					type: "GET",
 					dataType: "json",
 					success: plotChart
@@ -16,11 +16,9 @@ $(document).ready(
 			
 			function createSeries(data) {
 				var series = 	[
-									{label:"Total", sname: "tt", data:[]}, {label:"Redirect", sname: "rd", data:[]},
-									{label:"DNS", sname: "dns", data:[]}, {label:"Connection", sname: "con", data:[]},
-									{label:"FirstByte", sname: "rq", data:[]}, {label:"Server", sname: "st", data:[]},
-									{label:"Download", sname: "rs", data:[]}, {label:"DOM", sname: "dom", data:[]},
-									{label:"Load", sname: "ld", data:[]}, {label:"Requests", sname: "cnt", data:[], yaxis: 2}
+									{label:"Apdex", sname: "apdx", data:[]}, {label:"Satisfied", sname: "asc", data:[], yaxis: 2},
+									{label:"Tolerating", sname: "atc", data:[], yaxis: 2},
+									{label:"Frustrated", sname: "afc", data:[], yaxis: 2}
 								];
 								
 				for ( var i = 0; i < data.length; i += 1) {
@@ -38,10 +36,8 @@ $(document).ready(
 				var options = {
 							xaxis : { mode : "time", timezone: "browser" },
 							yaxes: [ 
-								{ transform:  function(v) {return v == 0 ? v : Math.log(v);}, 
-								inverseTransform: function (v) { return Math.exp(v);},
-								position: "left", axisLabel: "Time (ms)"},
-								{ position: "right", axisLabel: "Request Count"} 
+								{ min: 0, max: 1, position: "left", axisLabel: "Apdex"},
+								{ min: 0, max: 100, position: "right", axisLabel: "Percentage"} 
 							],
 							series: { lines: { show: true }, points: { show: true } },
 							grid: { hoverable: true, clickable: true },

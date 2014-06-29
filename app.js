@@ -28,7 +28,7 @@ var ui = require('./routes/ui');
 var pageResponseQuery = require('./routes/page-response-query');
 var tag = require('./routes/tag');
 var login = require('./routes/login');
-var pageResponseAnalysis = require('./routes/page-response-chart');
+var apdex = require('./routes/apdex');
 var pageViewAnalysis = require('./routes/page-response-analysis');
 var analysisOnWorldMap = require('./routes/page-response-heatmap');
 
@@ -71,7 +71,7 @@ app.use('/', ui);
 app.use('/', login);
 app.use('/page-response-query', pageResponseQuery);
 app.use('/tag', tag);
-app.use('/page-response-chart', pageResponseAnalysis);
+app.use('/apdex', apdex);
 app.use('/page-response-analysis', pageViewAnalysis);
 app.use('/page-response-heatmap', analysisOnWorldMap);
 

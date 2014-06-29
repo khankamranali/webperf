@@ -13,7 +13,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.app":app, "value.tt":{$gte:tt}} },
 					{ 	$group :
 							 { _id : "$_id.pg",
-							   pcnt : { $sum: "$value.pcnt" }, 
+							   cnt : { $sum: "$value.cnt" }, 
 							   tt: {$avg: "$value.tt"},
 							   rd: {$avg: "$value.rd"},
 							   dns: {$avg: "$value.dns"},
@@ -29,7 +29,7 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 							{
 							   _id: 0,
 							   pg: "$_id",
-							   pcnt : 1, 
+							   cnt : 1, 
 							   tt: 1,
 							   rd: 1,
 							   dns: 1,
@@ -77,7 +77,7 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 					{ 	$match: {"_id.ts" : { $gte: fromTs, $lte: toTs }, "_id.pg":pg, "_id.app":app } },
 					{ 	$group :
 							 { _id : {"pg":"$_id.pg", "ctr":"$_id.ctr" },
-							   pcnt : { $sum : "$value.pcnt" }, 
+							   cnt : { $sum : "$value.cnt" }, 
 							   tt: {$avg: "$value.tt"},
 							   rd: {$avg: "$value.rd"},
 							   dns: {$avg: "$value.dns"},
@@ -94,7 +94,7 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 							   _id: 0,
 							   pg: "$_id.pg",
 							   ctr: "$_id.ctr",
-							   pcnt : 1, 
+							   cnt : 1, 
 							   tt: 1,
 							   rd: 1,
 							   dns: 1,

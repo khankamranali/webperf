@@ -29,8 +29,8 @@ router.get('/page-response-query', ensureAuthenticated,function(req, res) {
 });
 
 /* GET page response time analysis page. */
-router.get('/page-response-chart', ensureAuthenticated,function(req, res) {
-  res.render('page-response-chart', { moment: moment });
+router.get('/apdex', ensureAuthenticated,function(req, res) {
+  res.render('apdex', { moment: moment });
 });
 
 /* GET page response time analysis page. */
