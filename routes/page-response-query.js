@@ -14,15 +14,15 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 					{ 	$group :
 							 { _id : "$_id.pg",
 							   cnt : { $sum: "$value.cnt" }, 
-							   tt: {$avg: "$value.tt"},
-							   rd: {$avg: "$value.rd"},
-							   dns: {$avg: "$value.dns"},
-							   con: {$avg: "$value.con"},
-							   rq: {$avg: "$value.rq"},
-							   st: {$avg: "$value.st"},
-							   rs: {$avg: "$value.rs"},
-							   dom: {$avg: "$value.dom"},
-							   ld: {$avg: "$value.ld"}
+							   tt: {$sum: {$multiply:["$value.tt", "$value.cnt"]}},
+							   rd: {$sum: {$multiply:["$value.rd", "$value.cnt"]}},
+							   dns: {$sum: {$multiply:["$value.dns", "$value.cnt"]}},
+							   con: {$sum: {$multiply:["$value.con", "$value.cnt"]}},
+							   rq: {$sum: {$multiply:["$value.rq", "$value.cnt"]}},
+							   st: {$sum: {$multiply:["$value.st", "$value.cnt"]}},
+							   rs: {$sum: {$multiply:["$value.rs", "$value.cnt"]}},
+							   dom: {$sum: {$multiply:["$value.dom", "$value.cnt"]}},
+							   ld: {$sum: {$multiply:["$value.ld", "$value.cnt"]}}
 							 }
 					}, 
 					{	$project: 
@@ -30,15 +30,15 @@ router.get('/dayrange', ensureAuthenticated, function(req, res) {
 							   _id: 0,
 							   pg: "$_id",
 							   cnt : 1, 
-							   tt: 1,
-							   rd: 1,
-							   dns: 1,
-							   con: 1,
-							   rq: 1,
-							   st: 1,
-							   rs: 1,
-							   dom: 1,
-							   ld: 1
+							   tt: {$divide:["$tt","$cnt"]},
+							   rd: {$divide:["$rd","$cnt"]},
+							   dns: {$divide:["$dns","$cnt"]},
+							   con: {$divide:["$con","$cnt"]},
+							   rq: {$divide:["$rq","$cnt"]},
+							   st: {$divide:["$st","$cnt"]},
+							   rs: {$divide:["$rs","$cnt"]},
+							   dom: {$divide:["$dom","$cnt"]},
+							   ld: {$divide:["$ld","$cnt"]}
 							}
 					}
 				];
@@ -78,15 +78,15 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 					{ 	$group :
 							 { _id : {"pg":"$_id.pg", "ctr":"$_id.ctr" },
 							   cnt : { $sum : "$value.cnt" }, 
-							   tt: {$avg: "$value.tt"},
-							   rd: {$avg: "$value.rd"},
-							   dns: {$avg: "$value.dns"},
-							   con: {$avg: "$value.con"},
-							   rq: {$avg: "$value.rq"},
-							   st: {$avg: "$value.st"},
-							   rs: {$avg: "$value.rs"},
-							   dom: {$avg: "$value.dom"},
-							   ld: {$avg: "$value.ld"}
+							   tt: {$sum: {$multiply:["$value.tt", "$value.cnt"]}},
+							   rd: {$sum: {$multiply:["$value.rd", "$value.cnt"]}},
+							   dns: {$sum: {$multiply:["$value.dns", "$value.cnt"]}},
+							   con: {$sum: {$multiply:["$value.con", "$value.cnt"]}},
+							   rq: {$sum: {$multiply:["$value.rq", "$value.cnt"]}},
+							   st: {$sum: {$multiply:["$value.st", "$value.cnt"]}},
+							   rs: {$sum: {$multiply:["$value.rs", "$value.cnt"]}},
+							   dom: {$sum: {$multiply:["$value.dom", "$value.cnt"]}},
+							   ld: {$sum: {$multiply:["$value.ld", "$value.cnt"]}}
 							 }
 					}, 
 					{	$project: 
@@ -95,15 +95,15 @@ router.get('/page/dayrange', ensureAuthenticated, function(req, res) {
 							   pg: "$_id.pg",
 							   ctr: "$_id.ctr",
 							   cnt : 1, 
-							   tt: 1,
-							   rd: 1,
-							   dns: 1,
-							   con: 1,
-							   rq: 1,
-							   st:1,
-							   rs: 1,
-							   dom: 1,
-							   ld: 1
+							   tt: {$divide:["$tt","$cnt"]},
+							   rd: {$divide:["$rd","$cnt"]},
+							   dns: {$divide:["$dns","$cnt"]},
+							   con: {$divide:["$con","$cnt"]},
+							   rq: {$divide:["$rq","$cnt"]},
+							   st:{$divide:["$st","$cnt"]},
+							   rs: {$divide:["$rs","$cnt"]},
+							   dom: {$divide:["$dom","$cnt"]},
+							   ld: {$divide:["$ld","$cnt"]}
 							}
 					}
 				];

@@ -5,19 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var mongo = require('mongoskin');
 var responseTime = require('./my_modules/response_time');
-
-var mongodbConnectionString = "mongodb://localhost:27017/webperf"
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  mongodbConnectionString = process.env.OPENSHIFT_MONGODB_DB_URL + 'webperf';
-}
-var db = mongo.db(mongodbConnectionString, {auto_reconnect: true, native_parser: true});
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  db.authenticate('admin', '6WPBZjxMQyys', function(err, res) {
-	console.log('Mongodb connection auth passed.');
-  });
-}
+var db = require('./my_modules/db').db();
 
 var session      = require('express-session');
 var sessionstore = require('sessionstore');

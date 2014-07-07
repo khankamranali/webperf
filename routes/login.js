@@ -1,36 +1,15 @@
 var flash = require('connect-flash')
   , express = require('express')
   , passport = require('passport')
-  , util = require('util')
   , LocalStrategy = require('passport-local').Strategy
-  , router = express.Router();
+  , router = express.Router()
+  , db = require('../my_modules/db').db();
 
-var users = [
-    { id: 1, username: 'kamran.khan@hcl.com', password: 'secret', email: 'kamran.khan@hcl.com' },
-	{ id: 2, username: 'vjangam@tibco.com', password: 'secret', email: 'vjangam@tibco.com' },
-	{ id: 3, username: 'vaibhav.saxena@hcl.com', password: 'secret', email: 'vaibhav.saxena@hcl.com' },
-	{ id: 4, username: 'swapnil.gupta@hcl.com', password: 'secret', email: 'swapnil.gupta@hcl.com' },
-	{ id: 5, username: 'sagar.tondon@hcl.com', password: 'secret', email: 'sagar.tondon@hcl.com' },
-	{ id: 6, username: 'shbhatt@tibco.com', password: 'secret', email: 'shbhatt@tibco.com' },
-];
-
-function findById(id, fn) {
-  var idx = id - 1;
-  if (users[idx]) {
-    fn(null, users[idx]);
-  } else {
-    fn(new Error('User ' + id + ' does not exist'));
-  }
-}
 
 function findByUsername(username, fn) {
-  for (var i = 0, len = users.length; i < len; i++) {
-    var user = users[i];
-    if (user.username === username) {
-      return fn(null, user);
-    }
-  }
-  return fn(null, null);
+	db.collection('user').findOne( {email:username}, function (err, user) {
+		return fn(null, user);
+	});
 }
 
 
@@ -40,13 +19,11 @@ function findByUsername(username, fn) {
 //   this will be as simple as storing the user ID when serializing, and finding
 //   the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-  findById(id, function (err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(function(user, done) {
+    done(null, user);
 });
 
 
@@ -67,8 +44,8 @@ passport.use(new LocalStrategy(
       // authenticated `user`.
       findByUsername(username, function(err, user) {
         if (err) { return done(err); }
-        if (!user) { return done(null, false, { message: 'Invalid email or password.' + username }); }
-        if (user.password != password) { return done(null, false, { message: 'Invalid email or password.' }); }
+        if (!user) { return done(null, false, { message: 'Invalid username or password.'}); }
+        if (user.password != password) { return done(null, false, { message: 'Invalid username or password.' }); }
         return done(null, user);
       })
     });
@@ -92,7 +69,7 @@ router.post('/login',
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
     res.redirect('/select-app');
-  });
+});
 
 
 router.get('/logout', function(req, res){
