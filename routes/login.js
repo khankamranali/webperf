@@ -7,7 +7,7 @@ var flash = require('connect-flash')
 
 
 function findByUsername(username, fn) {
-	db.collection('user').findOne( {email:username}, function (err, user) {
+	db.collection('user').findOne( {username:username}, function (err, user) {
 		return fn(null, user);
 	});
 }
